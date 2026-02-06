@@ -2,7 +2,7 @@ package com.example.network.model
 
 import com.google.gson.annotations.SerializedName
 
-data class CartResponce(
+data class OrderResponse(
     @SerializedName("id")
     val id: String,
     @SerializedName("collectionId")

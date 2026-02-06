@@ -10,4 +10,3 @@ data class Registration(
     @SerializedName("passwordConfirm")
     val passwordConfirm: String
 )
-

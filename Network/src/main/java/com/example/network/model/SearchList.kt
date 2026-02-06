@@ -8,7 +8,7 @@ data class SearchList(
     @SerializedName("title")
     val title: String,
     @SerializedName("price")
-    val price: Double,
+    val price: Int,
     @SerializedName("typeCloses")
     val typeCloses: String,
     @SerializedName("type")

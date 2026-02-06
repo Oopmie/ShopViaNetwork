@@ -14,4 +14,3 @@ data class SalesAndNews(
     @SerializedName("items")
     val items: List<News>
 )
-

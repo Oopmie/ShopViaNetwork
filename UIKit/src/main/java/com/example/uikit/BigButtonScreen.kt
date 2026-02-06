@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.uikit.ui.theme.Accent
 import com.example.uikit.ui.theme.AccentInactive
+//кнопка на странице создания проекта, при нажатии создает проект, если поля заполнены
 @Composable
 fun BigButton(enabled: Boolean, onClick: () -> Unit, text: String) {
     val interactionSource = remember { MutableInteractionSource() }

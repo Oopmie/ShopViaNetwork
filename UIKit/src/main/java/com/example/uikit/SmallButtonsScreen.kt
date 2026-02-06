@@ -1,11 +1,6 @@
 package com.example.uikit
 
-import android.service.autofill.OnClickAction
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,16 +16,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.uikit.ui.theme.Accent
-import com.example.uikit.ui.theme.AccentInactive
 import com.example.uikit.ui.theme.Caption
 
-//кнопки для карточек товаров
-//при нажатии отправляет товар в корзину
+//кнопки для карточек товаров,
+//при нажатии отправляет товар в корзину.
 @Composable
 fun SmallButton(
     onToggle: (Boolean) -> Unit,
     textDelete: String,
-    textAdd: String
+    textAdd: String,
+    isAdded: Boolean
 ) {
     var isAdded by remember { mutableStateOf(false) }
     val containerColor = if (isAdded) Color.White else Accent
