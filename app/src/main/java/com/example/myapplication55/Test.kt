@@ -18,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.uikit.BigButton
+import com.example.uikit.CardScreen
+import com.example.uikit.SpacerScreen
 
 @Composable
 fun RegistrationScreen() {
@@ -28,7 +30,7 @@ fun RegistrationScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(16.dp, 60.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         OutlinedTextField(
@@ -37,6 +39,7 @@ fun RegistrationScreen() {
             label = { Text("Имя") },
             modifier = Modifier.fillMaxWidth()
         )
+        SpacerScreen(1.dp)
         OutlinedTextField(
             value = lastName,
             onValueChange = { lastName = it },
@@ -49,11 +52,12 @@ fun RegistrationScreen() {
             onClick = {},
             text = "Подтвердить"
         )
+        CardScreen("Рубашка Воскресенье для машинного вязания", "Мужская одежда","300 ₽")
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun Prscreen(){
-
+    RegistrationScreen()
 }

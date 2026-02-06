@@ -17,30 +17,36 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.uikit.ui.theme.Accent
 import com.example.uikit.ui.theme.AccentInactive
-
 @Composable
 fun BigButton(enabled: Boolean, onClick: () -> Unit, text: String) {
     val interactionSource = remember { MutableInteractionSource() }
-    val isPresed by interactionSource.collectIsPressedAsState()
+    val isPressed by interactionSource.collectIsPressedAsState()
+
+    val containerColor = when {
+        !enabled -> AccentInactive
+        isPressed -> Color.White
+        else -> Accent
+    }
+
+    val contentColor = if (isPressed && enabled) Accent else Color.White
+    val borderColor = if (enabled) Accent else AccentInactive
+
     Button(
         onClick = onClick,
         enabled = enabled,
+        interactionSource = interactionSource,
         modifier = Modifier
             .fillMaxWidth()
             .height(56.dp),
         shape = RoundedCornerShape(12.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = Accent,
+            containerColor = containerColor,
+            contentColor = contentColor,
             disabledContainerColor = AccentInactive,
-            contentColor = Color.White,
             disabledContentColor = Color.White
         ),
-        border = BorderStroke(
-            width = 2.dp,
-            color = if (enabled) Accent else AccentInactive
-        )
-
-    ){
-        Text(text=text, color = Color.White)
+        border = BorderStroke(2.dp, borderColor)
+    ) {
+        Text(text = text)
     }
 }
