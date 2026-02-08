@@ -41,21 +41,21 @@ class AppRepositoryImpl(
             }
         } catch (e: Exception) { Result.failure(e) }
     }
-    override suspend fun register(registration: Registration) = withContext(dispatcher) {
-        try {
-            val response = api.createUser(registration)
-            if (response.isSuccessful) Result.success(response.body()!!)
-            else Result.failure(Exception("Ошибка регистрации"))
-        } catch (e: Exception) { Result.failure(e) }
-    }
-
-    override suspend fun login(request: AuthRequest) = withContext(dispatcher) {
-        try {
-            val response = api.authUser(request)
-            if (response.isSuccessful) Result.success(response.body()!!)
-            else Result.failure(Exception("Неверный логин или пароль"))
-        } catch (e: Exception) { Result.failure(e) }
-    }
+//    override suspend fun register(registration: Registration) = withContext(dispatcher) {
+//        try {
+//            val response = api.createUser(registration)
+//            if (response.isSuccessful) Result.success(response.body()!!)
+//            else Result.failure(Exception("Ошибка регистрации"))
+//        } catch (e: Exception) { Result.failure(e) }
+//    }
+//
+//    override suspend fun login(request: AuthRequest) = withContext(dispatcher) {
+//        try {
+//            val response = api.authUser(request)
+//            if (response.isSuccessful) Result.success(response.body()!!)
+//            else Result.failure(Exception("Неверный логин или пароль"))
+//        } catch (e: Exception) { Result.failure(e) }
+//    }
 
     override suspend fun createOrder(request: OrderRequest) = withContext(dispatcher) {
         try {

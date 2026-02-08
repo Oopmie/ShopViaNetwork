@@ -3,6 +3,7 @@ package com.example.uikit
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -25,7 +26,8 @@ fun SmallButton(
     onToggle: (Boolean) -> Unit,
     textDelete: String,
     textAdd: String,
-    isAdded: Boolean
+    initialAdded: Boolean,
+    modifier: Modifier= Modifier
 ) {
     var isAdded by remember { mutableStateOf(false) }
     val containerColor = if (isAdded) Color.White else Accent
@@ -35,9 +37,7 @@ fun SmallButton(
             isAdded = !isAdded
             onToggle(isAdded)
         },
-        modifier = Modifier
-            .width(130.dp)
-            .height(40.dp),
+        modifier = modifier,
         shape = RoundedCornerShape(12.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = containerColor,

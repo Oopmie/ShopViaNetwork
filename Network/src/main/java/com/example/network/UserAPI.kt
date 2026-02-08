@@ -41,14 +41,17 @@ interface UserAPI {
     @GET("collections/_authOrigins/records")
     suspend fun getToken(): Response<TokenResponse>
 
+    @DELETE("collections/_authOrigins/records/{id_token}")
+    suspend fun deleteUser(@Path("id_token") id: String, @Header("Authorization") token: String)
+
     @GET("collections/news/records")
     suspend fun seeSales(): Response<SalesAndNews>
 
     @GET("collections/products/records")
-    suspend fun productList(@Query("filter")filter: String): Response<ProductSearchList>
+    suspend fun productList(@Query("filter") filter: String): Response<ProductSearchList>
 
     @GET("collections/products/records/{id_product}")
-    suspend fun productDescription(@Path("id_product")idProduct: String): Response<ProductDescription>
+    suspend fun productDescription(@Path("id_product") idProduct: String): Response<ProductDescription>
 
     @GET("collections/project/records")
     suspend fun projectList(): Response<ProjectList>
@@ -60,9 +63,21 @@ interface UserAPI {
     suspend fun createCart(@Body request: CartRequest): Response<CartResponse>
 
     @PUT("collections/cart/records/{id_bucket}")
-    suspend fun updateCart(@Path("id_bucket")id: String): Response<CartResponse>
+    suspend fun updateCart(@Path("id_bucket") id: String): Response<CartResponse>
 
     @POST("collections/orders/records")
     suspend fun createOrder(@Body request: OrderRequest): Response<OrderResponse>
-
 }
+
+
+//    @GET("collections/cart/records")
+//    suspend fun getCartItemsForUser(@Query("filter") filter: String): Response<ListResponse<CartResponse>> // Нужен класс ListResponse
+//
+//    // PUT запрос на обновление количества
+//    @PUT("collections/cart/records/{id_bucket}")
+//    suspend fun updateCartItem(@Path("id_bucket") id: String, @Body request: UpdateCartQuantityRequest): Response<CartResponse>
+//
+//    // DELETE запрос на удаление
+//    @DELETE("collections/cart/records/{id_bucket}")
+//    suspend fun deleteCartItem(@Path("id_bucket") id: String): Response<Unit>
+//    }

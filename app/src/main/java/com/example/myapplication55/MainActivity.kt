@@ -14,7 +14,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyApplication55Theme {
-                MainProductScreen()
+                RegistrationScreen()
             }
         }
     }
@@ -24,6 +24,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     MyApplication55Theme {
-        MainProductScreen()
+        RegistrationScreen()
     }
 }

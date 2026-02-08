@@ -10,9 +10,9 @@ import com.example.network.model.SearchList
 import com.example.network.model.User
 
 interface AppRepository {
-        // Auth
-        suspend fun register(registration: Registration): Result<User>
-        suspend fun login(request: AuthRequest): Result<AuthResponse>
+//        // Auth
+//        suspend fun register(registration: Registration): Result<User>
+//        suspend fun login(request: AuthRequest): Result<AuthResponse>
 
         // Products and Cart
         suspend fun getProducts(query: String = ""): Result<List<SearchList>>

@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.myapplication55.data.AppRepository
 import com.example.myapplication55.data.SessionManager
 import com.example.network.model.OrderRequest
+import com.example.network.model.ProductDescription
 import com.example.network.model.SearchList
 import kotlinx.coroutines.launch
 
@@ -19,6 +20,8 @@ class ProductViewModel(
 ) : ViewModel() {
     var products by mutableStateOf<List<SearchList>>(emptyList())
         private set
+    var description by mutableStateOf<List<ProductDescription>>(emptyList())
+        private set
     var isLoading by mutableStateOf(false)
         private set
     var cartItemIds = mutableStateListOf<String>()
@@ -26,11 +29,21 @@ class ProductViewModel(
     init {
         products = listOf(
             SearchList(
-                id = "1", title = "Тест", price = 999, type = "Одежда",
+                id = "1", title = "Рубашка Воскресенье для машинного вязания", price = 300, type = "Мужская одежда",
                 typeCloses = "хм"
             )
         )
         loadProducts()
+        description= listOf(
+            ProductDescription(
+                id = "1", collectionId = "1", collectionName = "одежда", created = "ss", updated = "sd", title = "d",
+                description = "Мой выбор для этих шапок – кардные составы, которые раскрываются деликатным пушком. Кашемиры, мериносы, смесовки с ними отлично подойдут на шапку.\n" +
+                        "Кардные составы берите в большое количество сложений, вязать будем резинку 1х1, плотненько.\n" +
+                        "Пряжу 1400-1500м в 100г в 4 сложения, пряжу 700м в 2 сложения. Ориентир для конечной толщины – 300-350м в 100г.\n" +
+                        "Артикулы, из которых мы вязали эту модель: Zermatt Zegna Baruffa, Cashfive, Baby Cashmere Loro Piana, Soft Donegal и другие.\n" +
+                        "Примерный расход на шапку с подгибом 70-90г.", price = 300, typeCloses = "хм", type = "Мужская одежда", approximateCost = "80-90"
+            )
+        )
     }
 
 

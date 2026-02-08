@@ -31,18 +31,24 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.ui.Alignment
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.myapplication55.viewModel.AuthViewModel
 import com.example.myapplication55.viewModel.ProductViewModel
+import com.example.network.model.ProductDescription
+import com.example.network.model.SearchList
+import com.example.uikit.AppTextField
 import com.example.uikit.ui.theme.Accent
 import com.example.uikit.ui.theme.Black
 import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
-fun RegistrationScreen() {
+fun RegistrationScreen(viewModel: ProductViewModel= koinViewModel()) {
     var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
     val isFormValid = firstName.isNotBlank() && lastName.isNotBlank()
-
+    val product = viewModel.products.firstOrNull()
+    val description = viewModel.description.firstOrNull()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -68,39 +74,69 @@ fun RegistrationScreen() {
             onClick = {},
             text = "Подтвердить"
         )
-//        CardScreen("Рубашка Воскресенье для машинного вязания", "Мужская одежда","300 ₽")
-    }
+        if (product != null && description != null) {
+        CardScreen(product = product, description = description, isAdded = false)
+    }}
 }
-@Composable
-fun MainProductScreen(
-    viewModel: ProductViewModel = koinViewModel()
-) {
-    val products = viewModel.products
-    val isLoading = viewModel.isLoading
-    Box(modifier = Modifier.fillMaxSize()) {
-        if (isLoading) {
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-        } else {
-            LazyColumn(
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                items(products) { product ->
-                    CardScreen(
-                        product = product,
-                        isAdded = viewModel.cartItemIds.contains(product.id),
-                        onToggleClick = {
-                            viewModel.toggleCart(product.id)
-                        }
-                    )
-                }
-            }
-        }
-    }
-}
+//@Composable
+//fun MainProductScreen(
+//    viewModel: ProductViewModel = koinViewModel()
+//) {
+//    val products = viewModel.products
+//    val isLoading = viewModel.isLoading
+//    Box(modifier = Modifier.fillMaxSize()) {
+//        if (isLoading) {
+//            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+//        } else {
+//            LazyColumn(
+//                contentPadding = PaddingValues(16.dp),
+//                verticalArrangement = Arrangement.spacedBy(12.dp)
+//            ) {
+//                items(products) { product ->
+//                    CardScreen(
+//                        product = product,
+//                        isAdded = viewModel.cartItemIds.contains(product.id),
+//                        onToggleClick = {
+//                            viewModel.toggleCart(product.id)
+//                        }
+//                    )
+//                }
+//            }
+//        }
+//    }
+//}
+//@Composable
+//fun LoginScreen(viewModel: AuthViewModel = koinViewModel()) {
+//
+//    Column(modifier = Modifier.padding(20.dp)) {
+//
+//        // Твой TextField из UIKit
+//        AppTextField(
+//            value = viewModel.loginText,
+//            onValueChange = { viewModel.onLoginChanged(it) },
+//            placeholder = "Введите ваш логин",
+//            isError = viewModel.isLoginError,
+//            errorText = "Пожалуйста, введите ваш текст" // Текст под полем
+//        )
+//
+//        Spacer(modifier = Modifier.height(24.dp))
+//
+//        // Твоя BigButton
+//        BigButton(
+//            enabled = true,
+//            text = "Продолжить",
+//            onClick = {
+//                viewModel.onLoginClick {
+//                    // Переход на главный экран при успехе
+//                }
+//            }
+//        )
+//    }
+//}
+
 
 @Preview(showBackground = true)
 @Composable
 fun MainProductScreenPreview(){
-    MainProductScreen()
+    RegistrationScreen()
 }
