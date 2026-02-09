@@ -15,6 +15,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import com.example.uikit.ui.theme.Black
 import com.example.uikit.ui.theme.Error
 import com.example.uikit.ui.theme.InputBg
 
@@ -28,13 +30,13 @@ fun AppTextField(
     errorText: String,
     modifier: Modifier = Modifier
 ) {
-    val isFocused by mutableStateOf(false)
-    val borderColor = when {
-        isError -> Error
-        isFocused -> Color(0xFF007AFF)
-        value.isNotEmpty()-> Color(0xFFB8C1CC)
-        else -> Color.LightGray
-    }
+//    val isFocused by remember {  mutableStateOf(false)}
+//    val borderColor = when {
+//        isError -> Error
+//        isFocused -> Color(0xFF007AFF)
+//        value.isNotEmpty()-> Color(0xFFB8C1CC)
+//        else -> Color.LightGray
+//    }
 
     Column (modifier = modifier.fillMaxWidth()) {
         OutlinedTextField(
@@ -46,11 +48,13 @@ fun AppTextField(
             shape = RoundedCornerShape(10.dp),
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = Color(0xFF007AFF),
-                unfocusedBorderColor = borderColor,
+                unfocusedBorderColor = Color.LightGray,
                 errorBorderColor = Error,
-                errorContainerColor = Color(0xFFE8A3A3FF),
+                errorContainerColor = Color(0xE8FFE2E2),
                 focusedContainerColor = InputBg,
                 unfocusedContainerColor = InputBg,
+                focusedTextColor = Black,
+                unfocusedTextColor = Black
             ),
             singleLine = true
         )
