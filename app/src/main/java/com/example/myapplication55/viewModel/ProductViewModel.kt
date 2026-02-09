@@ -18,6 +18,8 @@ class ProductViewModel(
     private val repository: AppRepository,
     private val sessionManager: SessionManager
 ) : ViewModel() {
+    var addedProductIds = mutableStateOf(setOf<String>())
+        private set
     var products by mutableStateOf<List<SearchList>>(emptyList())
         private set
     var description by mutableStateOf<List<ProductDescription>>(emptyList())
@@ -46,6 +48,15 @@ class ProductViewModel(
         )
     }
 
+    fun toggleProduct(productId: String) {
+        val currentSet = addedProductIds.value.toMutableSet()
+        if (currentSet.contains(productId)) {
+            currentSet.remove(productId)
+        } else {
+            currentSet.add(productId)
+        }
+        addedProductIds.value = currentSet
+    }
 
     fun loadProducts(query: String = "") {
         viewModelScope.launch {

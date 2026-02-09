@@ -23,20 +23,17 @@ import com.example.uikit.ui.theme.Caption
 //при нажатии отправляет товар в корзину.
 @Composable
 fun SmallButton(
+    isAdded: Boolean,
     onToggle: (Boolean) -> Unit,
     textDelete: String,
     textAdd: String,
-    initialAdded: Boolean,
-    modifier: Modifier= Modifier
+    modifier: Modifier = Modifier
 ) {
-    var isAdded by remember { mutableStateOf(false) }
     val containerColor = if (isAdded) Color.White else Accent
     val contentColor = if (isAdded) Accent else Color.White
+
     Button(
-        onClick = {
-            isAdded = !isAdded
-            onToggle(isAdded)
-        },
+        onClick = { onToggle(!isAdded) },
         modifier = modifier,
         shape = RoundedCornerShape(12.dp),
         colors = ButtonDefaults.buttonColors(
@@ -51,3 +48,4 @@ fun SmallButton(
         )
     }
 }
+

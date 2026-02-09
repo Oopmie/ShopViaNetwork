@@ -1,16 +1,12 @@
-package com.example.myapplication55
+package com.example.myapplication55.test
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,22 +19,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.uikit.BigButton
 import com.example.uikit.CardScreen
-import com.example.uikit.CategoryChip
 import com.example.uikit.SpacerScreen
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.ui.Alignment
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.myapplication55.viewModel.AuthViewModel
 import com.example.myapplication55.viewModel.ProductViewModel
-import com.example.network.model.ProductDescription
-import com.example.network.model.SearchList
-import com.example.uikit.AppTextField
-import com.example.uikit.ui.theme.Accent
-import com.example.uikit.ui.theme.Black
 import org.koin.androidx.compose.koinViewModel
 
 
@@ -75,8 +57,13 @@ fun RegistrationScreen(viewModel: ProductViewModel= koinViewModel()) {
             text = "Подтвердить"
         )
         if (product != null && description != null) {
-        CardScreen(product = product, description = description, isAdded = false)
-    }}
+            CardScreen(
+                product = product,
+                description = description,
+                isAdded = viewModel.addedProductIds.value.contains(product.id),
+                onToggleClick = { viewModel.toggleProduct(product.id) }
+            )
+        }}
 }
 //@Composable
 //fun MainProductScreen(
