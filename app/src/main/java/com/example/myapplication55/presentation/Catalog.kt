@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -30,20 +32,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.myapplication55.R
+import com.example.myapplication55.viewModel.ProductViewModel
+import com.example.uikit.CardScreen
+import com.example.uikit.CategoryLazy
 import com.example.uikit.Search
 import com.example.uikit.ui.theme.CaptionColor
 import com.example.uikit.ui.theme.Title2
 import com.example.uikit.ui.theme.Title3
 import com.example.uikit.ui.theme.White
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun Catalog() {
+fun Catalog(viewModel: ProductViewModel = koinViewModel()) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
-            .padding(20.dp, 50.dp)
+            .padding(20.dp, 60.dp)
     ) {
-        val (search, textSales, card,catalogDesc) = createRefs()
+        val (search, textSales, card, catalogDesc, lazyCat, product) = createRefs()
         var searchIn by remember { mutableStateOf("") }
         Box(modifier = Modifier.constrainAs(search) {
             top.linkTo(parent.top, 0.dp)
@@ -61,13 +67,30 @@ fun Catalog() {
             modifier = Modifier.constrainAs(textSales) {
                 top.linkTo(search.bottom, 30.dp)
             })
-        LazyRow(modifier = Modifier.height(170.dp).constrainAs(card){
-            top.linkTo(textSales.bottom,15.dp)
-        }) {
+        LazyRow(
+            modifier = Modifier
+                .height(170.dp)
+                .constrainAs(card) {
+                    top.linkTo(textSales.bottom, 15.dp)
+                }) {
             item {
-                Card(modifier = Modifier.padding(end = 20.dp).width(280.dp), colors = CardDefaults.cardColors(Color(0xFF97D9F0)), shape = RoundedCornerShape(12.dp)) {
-                    Row(modifier = Modifier.fillMaxSize().padding(16.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                        Column(modifier = Modifier.fillMaxHeight(), verticalArrangement = Arrangement.SpaceBetween) {
+                Card(
+                    modifier = Modifier
+                        .padding(end = 20.dp)
+                        .width(280.dp),
+                    colors = CardDefaults.cardColors(Color(0xFF97D9F0)),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Column(
+                            modifier = Modifier.fillMaxHeight(),
+                            verticalArrangement = Arrangement.SpaceBetween
+                        ) {
                             Text("Шорты \nВторник", color = White, style = Title2.titleLarge)
                             Text("4000 ₽", color = White, style = Title2.titleLarge)
                         }
@@ -81,9 +104,21 @@ fun Catalog() {
                 }
             }
             item {
-                Card(modifier = Modifier.width(280.dp), colors = CardDefaults.cardColors(Color(0xFF76B3FF)), shape = RoundedCornerShape(12.dp)) {
-                    Row(modifier = Modifier.fillMaxSize().padding(16.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                        Column(modifier = Modifier.fillMaxHeight(), verticalArrangement = Arrangement.SpaceBetween) {
+                Card(
+                    modifier = Modifier.width(280.dp),
+                    colors = CardDefaults.cardColors(Color(0xFF76B3FF)),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Column(
+                            modifier = Modifier.fillMaxHeight(),
+                            verticalArrangement = Arrangement.SpaceBetween
+                        ) {
                             Text("Рубашка \nВоскресенье", color = White, style = Title2.titleLarge)
                             Text("8000 ₽", color = White, style = Title2.titleLarge)
                         }
@@ -97,10 +132,31 @@ fun Catalog() {
                 }
             }
         }
-        Text("Каталог описаний", modifier = Modifier.constrainAs(catalogDesc){
-            top.linkTo(card.bottom,30.dp)
+        Text("Каталог описаний", modifier = Modifier.constrainAs(catalogDesc) {
+            top.linkTo(card.bottom, 30.dp)
         })
-
+        Box(modifier = Modifier.constrainAs(lazyCat) {
+            top.linkTo(catalogDesc.bottom, 15.dp)
+        }) {
+            CategoryLazy()
+        }
+        LazyColumn(modifier = Modifier.fillMaxSize().padding(PaddingValues(vertical = 15.dp)).constrainAs(product){
+            top.linkTo(lazyCat.bottom,15.dp)
+        }) {
+            val product = viewModel.products.firstOrNull()
+            val description = viewModel.description.firstOrNull()
+            item {
+                if (product != null && description != null) {
+                    CardScreen(
+                        product = product,
+                        description = description,
+                        isAdded = viewModel.addedProductIds.value.contains(product.id),
+                        onToggleClick = {
+                            viewModel.toggleProduct(product.id)
+                        })
+                }
+            }
+        }
     }
 }
 

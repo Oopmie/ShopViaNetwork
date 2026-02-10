@@ -43,6 +43,7 @@ import androidx.lifecycle.ViewModel
 import com.example.network.model.ProductDescription
 import com.example.network.model.SearchList
 import com.example.uikit.ui.theme.Caption
+import com.example.uikit.ui.theme.CaptionColor
 import com.example.uikit.ui.theme.Headline
 import com.example.uikit.ui.theme.Title2
 import com.example.uikit.ui.theme.Title3
@@ -78,7 +79,7 @@ fun CardScreen(
                 verticalAlignment = Alignment.Bottom
             ) {
                 Column {
-                    Text(text = product.type, style = Caption.bodyMedium)
+                    Text(text = product.type, style = Caption.bodyMedium, color = CaptionColor)
                     Text(text = "${product.price} ₽", style = Title3.titleLarge)
                 }
                 SmallButton(

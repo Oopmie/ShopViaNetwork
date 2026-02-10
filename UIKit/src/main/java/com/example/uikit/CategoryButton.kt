@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.uikit.ui.theme.Accent
+import com.example.uikit.ui.theme.Description
 
 @Composable
 fun CategoryChip(
@@ -24,15 +25,14 @@ fun CategoryChip(
     Button(
         onClick = onCategoryClick,
         modifier = Modifier
-            .padding(end = 8.dp)
-            .height(40.dp),
-        shape = RoundedCornerShape(20.dp),
+            .padding(end = 15.dp)
+            .height(45.dp),
+        shape = RoundedCornerShape(10.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = if (isSelected) Accent else Color(0xFFF4F4F4),
-            contentColor = if (isSelected) Color.White else Color.Black
+            contentColor = if (isSelected) Color.White else Description
         ),
-        border = if (isSelected) null else BorderStroke(1.dp, Color.LightGray),
-        contentPadding = PaddingValues(horizontal = 16.dp)
+        contentPadding = PaddingValues(horizontal = 20.dp)
     ) {
         Text(text = categoryName, style = MaterialTheme.typography.bodyMedium)
     }
