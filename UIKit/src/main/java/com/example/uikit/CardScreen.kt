@@ -49,7 +49,6 @@ import com.example.uikit.ui.theme.Title3
 
 //карточки товаров на главной странице с кнопкой "Добавить", при нажатии она меняется на кнопку "Убрать"
 //И отправляет товар в корзину.
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CardScreen(
     product: SearchList,
@@ -129,7 +128,6 @@ fun CardScreen(
                             Text(text = "Примерный расход:", style = Caption.bodyMedium, color = Color(0xFF939396))
                             Text(text = "${description.approximateCost} г", style = Headline.headlineMedium, color = Color.Black)
                         }
-
                         SmallButton(
                             isAdded = isAdded,
                             onToggle = { onToggleClick(it) },

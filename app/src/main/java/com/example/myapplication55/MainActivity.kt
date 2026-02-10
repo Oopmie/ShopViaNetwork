@@ -6,8 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.myapplication55.test.InputTestScreen
-import com.example.myapplication55.test.RegistrationScreen
+import com.example.myapplication55.presentation.Catalog
 import com.example.myapplication55.ui.theme.MyApplication55Theme
 
 class MainActivity : ComponentActivity() {
@@ -16,7 +15,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyApplication55Theme {
-                InputTestScreen()
+                Catalog()
             }
         }
     }
@@ -26,6 +25,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     MyApplication55Theme {
-        RegistrationScreen()
+        Catalog()
     }
 }

@@ -39,6 +39,8 @@ android {
 }
 
 dependencies {
+//    implementation("androidx.navigation:navigation-compose")
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     implementation(project(":UIKit"))
     implementation(project(":Network"))
     implementation(libs.androidx.core.ktx)

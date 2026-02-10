@@ -9,6 +9,6 @@ import androidx.compose.ui.unit.Dp
 
 //разделитель.
 @Composable
-fun SpacerScreen(thickness: Dp){
+fun HorizSpacer(thickness: Dp){
     HorizontalDivider(modifier = Modifier.fillMaxWidth(), color = Color.Gray, thickness = thickness)
 }

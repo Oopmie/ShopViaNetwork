@@ -30,14 +30,6 @@ fun AppTextField(
     errorText: String,
     modifier: Modifier = Modifier
 ) {
-//    val isFocused by remember {  mutableStateOf(false)}
-//    val borderColor = when {
-//        isError -> Error
-//        isFocused -> Color(0xFF007AFF)
-//        value.isNotEmpty()-> Color(0xFFB8C1CC)
-//        else -> Color.LightGray
-//    }
-
     Column (modifier = modifier.fillMaxWidth()) {
         OutlinedTextField(
             value=value,

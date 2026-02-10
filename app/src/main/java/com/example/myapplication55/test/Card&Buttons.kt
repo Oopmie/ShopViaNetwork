@@ -19,13 +19,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.uikit.BigButton
 import com.example.uikit.CardScreen
-import com.example.uikit.SpacerScreen
 import com.example.myapplication55.viewModel.ProductViewModel
+import com.example.uikit.HorizSpacer
 import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
-fun RegistrationScreen(viewModel: ProductViewModel= koinViewModel()) {
+fun RegistrationScreen(viewModel: ProductViewModel = koinViewModel()) {
     var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
     val isFormValid = firstName.isNotBlank() && lastName.isNotBlank()
@@ -43,7 +43,7 @@ fun RegistrationScreen(viewModel: ProductViewModel= koinViewModel()) {
             label = { Text("Имя") },
             modifier = Modifier.fillMaxWidth()
         )
-        SpacerScreen(1.dp)
+        HorizSpacer(1.dp)
         OutlinedTextField(
             value = lastName,
             onValueChange = { lastName = it },
@@ -63,7 +63,8 @@ fun RegistrationScreen(viewModel: ProductViewModel= koinViewModel()) {
                 isAdded = viewModel.addedProductIds.value.contains(product.id),
                 onToggleClick = { viewModel.toggleProduct(product.id) }
             )
-        }}
+        }
+    }
 }
 //@Composable
 //fun MainProductScreen(
@@ -124,6 +125,6 @@ fun RegistrationScreen(viewModel: ProductViewModel= koinViewModel()) {
 
 @Preview(showBackground = true)
 @Composable
-fun MainProductScreenPreview(){
+fun MainProductScreenPreview() {
     RegistrationScreen()
 }
