@@ -15,9 +15,9 @@ interface AppRepository {
 //        suspend fun login(request: AuthRequest): Result<AuthResponse>
 
         // Products and Cart
-        suspend fun getProducts(query: String = ""): Result<List<SearchList>>
-        suspend fun addToCart(productId: String, userId: String): Result<CartResponse>
-
-        // Orders
-        suspend fun createOrder(request: OrderRequest): Result<OrderResponse>
+//        suspend fun getProducts(query: String = ""): Result<List<SearchList>>
+//        suspend fun addToCart(productId: String, userId: String): Result<CartResponse>
+//
+//        // Orders
+//        suspend fun createOrder(request: OrderRequest): Result<OrderResponse>
     }

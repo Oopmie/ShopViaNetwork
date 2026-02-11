@@ -1,5 +1,7 @@
 package com.example.myapplication55.presentation
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,15 +16,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -44,13 +46,18 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun Catalog(viewModel: ProductViewModel = koinViewModel()) {
+    var selectedCategory by remember { mutableStateOf("Все") }
+    var searchIn by remember { mutableStateOf("") }
+
+    LaunchedEffect(selectedCategory) {
+        viewModel.loadProducts(selectedCategory)
+    }
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
             .padding(20.dp, 60.dp)
     ) {
-        val (search, textSales, card, catalogDesc, lazyCat, product) = createRefs()
-        var searchIn by remember { mutableStateOf("") }
+        val (search, textSales, card, catalogDesc, lazyCat, productList) = createRefs()
         Box(modifier = Modifier.constrainAs(search) {
             top.linkTo(parent.top, 0.dp)
         }) {
@@ -138,23 +145,31 @@ fun Catalog(viewModel: ProductViewModel = koinViewModel()) {
         Box(modifier = Modifier.constrainAs(lazyCat) {
             top.linkTo(catalogDesc.bottom, 15.dp)
         }) {
-            CategoryLazy()
+            CategoryLazy(
+                selected = selectedCategory,
+                onCategoryClick = { selectedCategory = it }
+            )
         }
-        LazyColumn(modifier = Modifier.fillMaxSize().padding(PaddingValues(vertical = 15.dp)).constrainAs(product){
-            top.linkTo(lazyCat.bottom,15.dp)
-        }) {
-            val product = viewModel.products.firstOrNull()
-            val description = viewModel.description.firstOrNull()
-            item {
-                if (product != null && description != null) {
-                    CardScreen(
-                        product = product,
-                        description = description,
-                        isAdded = viewModel.addedProductIds.value.contains(product.id),
-                        onToggleClick = {
-                            viewModel.toggleProduct(product.id)
-                        })
-                }
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(PaddingValues(vertical = 15.dp))
+                .constrainAs(productList) {
+                    top.linkTo(lazyCat.bottom, 15.dp)
+                }) {
+            items(viewModel.products) { itemProduct ->
+                CardScreen(
+                    product = itemProduct,
+                    // Описание из ViewModel подгрузится внутри карточки по нажатию
+                    description = viewModel.description,
+                    isAdded = viewModel.addedProductIds.value.contains(itemProduct.id),
+                    onCardClick = {
+                        viewModel.loadDescription(itemProduct.id)
+                    },
+                    onToggleClick = {
+                        viewModel.toggleProduct(itemProduct.id)
+                    }
+                )
             }
         }
     }

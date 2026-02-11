@@ -8,7 +8,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun CardInCartScreen(viewModel: ProductViewModel= koinViewModel()){
     val product = viewModel.products.firstOrNull()
-    val description = viewModel.description.firstOrNull()
+    val description = viewModel.description
     if (product != null && description != null) {
         CardCart(
             product = product,

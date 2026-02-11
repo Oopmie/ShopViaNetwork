@@ -53,8 +53,9 @@ import com.example.uikit.ui.theme.Title3
 @Composable
 fun CardScreen(
     product: SearchList,
-    description: ProductDescription,
+    description: ProductDescription?,
     isAdded: Boolean,
+    onCardClick:()-> Unit,
     onToggleClick: (Boolean) -> Unit
 ) {
     var showDialog by remember { mutableStateOf(false) }
@@ -120,14 +121,14 @@ fun CardScreen(
                         Text(text = product.title, style = Title2.headlineMedium)
                         Text(text = "Описание", style = Headline.headlineMedium, color = Color(0xFF939396))
                         Text(
-                            text = description.description,
+                            text = description?.description ?:"Загрузка..",
                             style = Headline.headlineMedium,
                             modifier = Modifier.weight(1f, fill = false)
                         )
 
                         Column {
                             Text(text = "Примерный расход:", style = Caption.bodyMedium, color = Color(0xFF939396))
-                            Text(text = "${description.approximateCost} г", style = Headline.headlineMedium, color = Color.Black)
+                            Text(text = "${description?.approximateCost} г", style = Headline.headlineMedium, color = Color.Black)
                         }
                         SmallButton(
                             isAdded = isAdded,

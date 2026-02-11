@@ -9,7 +9,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 
 @Composable
-fun CategoryLazy() {
+fun CategoryLazy(
+    selected: String,
+    onCategoryClick: (String) -> Unit
+) {
     var selectedCategory by remember { mutableStateOf("Все") }
     LazyRow() {
         val categories = listOf("Все", "Женщинам", "Мужчинам")

@@ -30,7 +30,7 @@ fun RegistrationScreen(viewModel: ProductViewModel = koinViewModel()) {
     var lastName by remember { mutableStateOf("") }
     val isFormValid = firstName.isNotBlank() && lastName.isNotBlank()
     val product = viewModel.products.firstOrNull()
-    val description = viewModel.description.firstOrNull()
+    val description = viewModel.description
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -61,6 +61,7 @@ fun RegistrationScreen(viewModel: ProductViewModel = koinViewModel()) {
                 product = product,
                 description = description,
                 isAdded = viewModel.addedProductIds.value.contains(product.id),
+                onCardClick = {},
                 onToggleClick = { viewModel.toggleProduct(product.id) }
             )
         }
