@@ -1,47 +1,38 @@
 package com.example.myapplication55.presentation
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.imageResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.example.myapplication55.R
 import com.example.myapplication55.viewModel.ProductViewModel
 import com.example.uikit.CardScreen
 import com.example.uikit.CategoryLazy
 import com.example.uikit.Search
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.ui.Alignment
+import com.example.uikit.ui.theme.Black
 import com.example.uikit.ui.theme.CaptionColor
-import com.example.uikit.ui.theme.Title2
 import com.example.uikit.ui.theme.Title3
-import com.example.uikit.ui.theme.White
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -57,91 +48,36 @@ fun Catalog(viewModel: ProductViewModel = koinViewModel()) {
             .fillMaxSize()
             .padding(20.dp, 60.dp)
     ) {
-        val (search, textSales, card, catalogDesc, lazyCat, productList) = createRefs()
-        Box(modifier = Modifier.constrainAs(search) {
-            top.linkTo(parent.top, 0.dp)
-        }) {
-            Search(
-                value = searchIn,
-                onValueChange = { searchIn = it },
-                placeholder = "        Искать описания"
+        val (search, catalogDesc, lazyCat, productList) = createRefs()
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .constrainAs(search) {
+                    top.linkTo(parent.top, 0.dp)
+                }, verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(20.dp)
+        ) {
+            Box(modifier = Modifier.weight(1f)) {
+                Search(
+                    value = searchIn,
+                    onValueChange = { searchIn = it },
+                    placeholder = "Искать описания"
+                )
+            }
+            Icon(
+                imageVector = Icons.Default.AccountCircle,
+                contentDescription = "Search",
+                tint = Black,
+                modifier = Modifier.size(50.dp)
             )
         }
         Text(
-            "Акции и новости",
+            "Каталог описаний",
             style = Title3.titleLarge,
             color = CaptionColor,
-            modifier = Modifier.constrainAs(textSales) {
+            modifier = Modifier.constrainAs(catalogDesc) {
                 top.linkTo(search.bottom, 30.dp)
             })
-        LazyRow(
-            modifier = Modifier
-                .height(170.dp)
-                .constrainAs(card) {
-                    top.linkTo(textSales.bottom, 15.dp)
-                }) {
-            item {
-                Card(
-                    modifier = Modifier
-                        .padding(end = 20.dp)
-                        .width(280.dp),
-                    colors = CardDefaults.cardColors(Color(0xFF97D9F0)),
-                    shape = RoundedCornerShape(12.dp)
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(16.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Column(
-                            modifier = Modifier.fillMaxHeight(),
-                            verticalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text("Шорты \nВторник", color = White, style = Title2.titleLarge)
-                            Text("4000 ₽", color = White, style = Title2.titleLarge)
-                        }
-                        Image(
-                            modifier = Modifier.size(150.dp),
-                            bitmap = ImageBitmap.imageResource(R.drawable.covid),
-                            contentDescription = "covid",
-                            contentScale = ContentScale.Crop
-                        )
-                    }
-                }
-            }
-            item {
-                Card(
-                    modifier = Modifier.width(280.dp),
-                    colors = CardDefaults.cardColors(Color(0xFF76B3FF)),
-                    shape = RoundedCornerShape(12.dp)
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(16.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Column(
-                            modifier = Modifier.fillMaxHeight(),
-                            verticalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text("Рубашка \nВоскресенье", color = White, style = Title2.titleLarge)
-                            Text("8000 ₽", color = White, style = Title2.titleLarge)
-                        }
-                        Image(
-                            modifier = Modifier.size(150.dp),
-                            bitmap = ImageBitmap.imageResource(R.drawable.manoncard),
-                            contentDescription = "covid",
-                            contentScale = ContentScale.Crop
-                        )
-                    }
-                }
-            }
-        }
-        Text("Каталог описаний", modifier = Modifier.constrainAs(catalogDesc) {
-            top.linkTo(card.bottom, 30.dp)
-        })
         Box(modifier = Modifier.constrainAs(lazyCat) {
             top.linkTo(catalogDesc.bottom, 15.dp)
         }) {
@@ -160,7 +96,6 @@ fun Catalog(viewModel: ProductViewModel = koinViewModel()) {
             items(viewModel.products) { itemProduct ->
                 CardScreen(
                     product = itemProduct,
-                    // Описание из ViewModel подгрузится внутри карточки по нажатию
                     description = viewModel.description,
                     isAdded = viewModel.addedProductIds.value.contains(itemProduct.id),
                     onCardClick = {
@@ -175,7 +110,6 @@ fun Catalog(viewModel: ProductViewModel = koinViewModel()) {
     }
 }
 
-
 //@Composable
 //fun ComposableScreen() {
 //    Scaffold(
@@ -188,9 +122,3 @@ fun Catalog(viewModel: ProductViewModel = koinViewModel()) {
 //        }
 //    }
 //}
-
-@Preview(showBackground = true)
-@Composable
-fun CatalogPreview() {
-    Catalog()
-}

@@ -57,6 +57,7 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.converter.gson)
     implementation(libs.koin.androidx.compose)
+    implementation(libs.androidx.compose.material.icons.extended)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

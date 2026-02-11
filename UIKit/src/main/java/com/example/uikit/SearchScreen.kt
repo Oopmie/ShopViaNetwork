@@ -28,13 +28,14 @@ fun Search(
         onValueChange = onValueChange,
         modifier = Modifier.fillMaxWidth(),
         placeholder = {
-            Icon(
-                imageVector = Icons.Default.Search,
-                contentDescription = "Search",
-                tint = Description
-            )
             Text(text = placeholder)
         },
+        leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Search,
+                    contentDescription = "Search",
+                    tint = Description
+                )},
         shape = RoundedCornerShape(10.dp),
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = InputStroke,
