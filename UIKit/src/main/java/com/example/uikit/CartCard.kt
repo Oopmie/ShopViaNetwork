@@ -36,6 +36,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.example.network.model.CartResponse
 import com.example.network.model.ProductDescription
 import com.example.network.model.SearchList
 import com.example.uikit.ui.theme.Black
@@ -48,7 +49,10 @@ import com.example.uikit.ui.theme.White
 @Composable
 fun CardCart(
     product: SearchList,
-    description: ProductDescription
+    description: ProductDescription,
+    cartEntry: CartResponse,
+    onDeleteClick: () -> Unit,
+    onCountUpdate: (Int) -> Unit
 ) {
     var showDialog by remember { mutableStateOf(false) }
 
@@ -69,7 +73,7 @@ fun CardCart(
         ) {
             Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.wrapContentHeight().fillMaxWidth()) {
                 Text(text = product.title, style = Headline.headlineMedium, modifier = Modifier.wrapContentHeight().fillMaxWidth(0.85f))
-                Button(onClick = {}, modifier = Modifier.height(20.dp).width(20.dp), colors = ButtonColors(containerColor = White, contentColor = Black,
+                Button(onClick = onDeleteClick, modifier = Modifier.height(20.dp).width(20.dp), colors = ButtonColors(containerColor = White, contentColor = Black,
                     disabledContainerColor = White, disabledContentColor = Black), contentPadding = PaddingValues(0.dp)
                 ) { Icon(
                     imageVector= Icons.Default.Close, contentDescription = "delete", tint = Black) }
@@ -82,7 +86,7 @@ fun CardCart(
                 Column {
                     Text(text = "${product.price} ₽", style = Title3.titleLarge)
                 }
-                CounterButton()
+                CounterButton(initialCount = cartEntry.count, onCountChange = onCountUpdate)
             }
         }
         if (showDialog) {

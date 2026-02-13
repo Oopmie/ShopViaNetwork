@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,16 +30,22 @@ import com.example.uikit.CategoryLazy
 import com.example.uikit.Search
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
 import com.example.uikit.ui.theme.Black
 import com.example.uikit.ui.theme.CaptionColor
 import com.example.uikit.ui.theme.Title3
+import com.example.uikit.ui.theme.White
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun Catalog(viewModel: ProductViewModel = koinViewModel()) {
+fun Catalog(viewModel: ProductViewModel = koinViewModel(), onNavigateToCart: () -> Unit = {}) {
     var selectedCategory by remember { mutableStateOf("Все") }
     var searchIn by remember { mutableStateOf("") }
+    val totalPrice = viewModel.totalCartPrice
 
     LaunchedEffect(selectedCategory) {
         viewModel.loadProducts(selectedCategory)
@@ -48,7 +55,7 @@ fun Catalog(viewModel: ProductViewModel = koinViewModel()) {
             .fillMaxSize()
             .padding(20.dp, 60.dp)
     ) {
-        val (search, catalogDesc, lazyCat, productList) = createRefs()
+        val (search, catalogDesc, lazyCat, productList, btnGoToCart) = createRefs()
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -106,6 +113,27 @@ fun Catalog(viewModel: ProductViewModel = koinViewModel()) {
                     }
                 )
             }
+        }
+        Button(
+            onClick = { onNavigateToCart() },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(60.dp)
+                .constrainAs(btnGoToCart) {
+                    bottom.linkTo(parent.bottom, 20.dp)
+                },
+            shape = RoundedCornerShape(12.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF007AFF))
+        ) {
+            Icon(
+                imageVector = Icons.Default.ShoppingCart,
+                contentDescription = "Cart",
+                tint = White
+            )
+            Text(
+                "      В корзину                                        ${totalPrice} ₽",
+                color = Color.White
+            )
         }
     }
 }

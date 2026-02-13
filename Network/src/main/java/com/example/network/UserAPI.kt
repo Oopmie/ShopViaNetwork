@@ -48,7 +48,8 @@ interface UserAPI {
     suspend fun seeSales(): Response<SalesAndNews>
 
     @GET("collections/products/records")
-    suspend fun productList(@Query("filter") filter: String?=null): Response<ProductSearchList>
+    suspend fun productList(@Header("Authorization") token: String,
+                            @Query("filter") filter: String?=null): Response<ProductSearchList>
 
     @GET("collections/products/records/{id_product}")
     suspend fun productDescription(@Path("id_product") idProduct: String): Response<ProductDescription>
