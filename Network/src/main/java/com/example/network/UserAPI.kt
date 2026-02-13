@@ -69,16 +69,3 @@ interface UserAPI {
     @POST("collections/orders/records")
     suspend fun createOrder(@Body request: OrderRequest): Response<OrderResponse>
 }
-
-
-//    @GET("collections/cart/records")
-//    suspend fun getCartItemsForUser(@Query("filter") filter: String): Response<ListResponse<CartResponse>> // Нужен класс ListResponse
-//
-//    // PUT запрос на обновление количества
-//    @PUT("collections/cart/records/{id_bucket}")
-//    suspend fun updateCartItem(@Path("id_bucket") id: String, @Body request: UpdateCartQuantityRequest): Response<CartResponse>
-//
-//    // DELETE запрос на удаление
-//    @DELETE("collections/cart/records/{id_bucket}")
-//    suspend fun deleteCartItem(@Path("id_bucket") id: String): Response<Unit>
-//    }

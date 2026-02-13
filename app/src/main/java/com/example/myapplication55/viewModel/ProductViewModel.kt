@@ -38,23 +38,23 @@ class ProductViewModel(
         }
     }
 
-    fun login(request: RequestAuth) {
-        viewModelScope.launch {
-            val response = api.auth(request)
-            if (response.isSuccessful) {
-                val token = response.body()?.token // Достаем токен из ответа
-                val userId = response.body()?.record?.id // Достаем ID пользователя
-
-                if (token != null && userId != null) {
-                    // СОХРАНЯЕМ В МЕНЕДЖЕР СЕССИИ
-                    sessionManager.saveToken(token)
-                    sessionManager.saveUserId(userId)
-
-                    // Переходим на экран каталога
-                }
-            }
-        }
-    }
+//    fun login(request: RequestAuth) {
+//        viewModelScope.launch {
+//            val response = api.auth(request)
+//            if (response.isSuccessful) {
+//                val token = response.body()?.token // Достаем токен из ответа
+//                val userId = response.body()?.record?.id // Достаем ID пользователя
+//
+//                if (token != null && userId != null) {
+//                    // СОХРАНЯЕМ В МЕНЕДЖЕР СЕССИИ
+//                    sessionManager.saveToken(token)
+//                    sessionManager.saveUserId(userId)
+//
+//                    // Переходим на экран каталога
+//                }
+//            }
+//        }
+//    }
     fun addToCart(productId: String) {
         viewModelScope.launch {
             val userId = sessionManager.getUserId() ?: "guest"
@@ -67,16 +67,16 @@ class ProductViewModel(
     }
 
 
-    fun loadProducts(category: String) {
-        viewModelScope.launch {
-            val token = "Bearer ${sessionManager.getToken()}"
-            val filter = if (category == "Все") null else "type='$category'"
-            val response = api.productList(token, filter)
-            if (response.isSuccessful) {
-                products = response.body()?.items ?: emptyList()
-            }
-        }
-    }
+//    fun loadProducts(category: String) {
+//        viewModelScope.launch {
+//            val token = "Bearer ${sessionManager.getToken()}"
+//            val filter = if (category == "Все") null else "type='$category'"
+//            val response = api.productList(token, filter)
+//            if (response.isSuccessful) {
+//                products = response.body()?.items ?: emptyList()
+//            }
+//        }
+//    }
 
     init {
         // Твои тестовые товары

@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.myapplication55.presentation.Catalog
+import com.example.myapplication55.presentation.auth.Welcome
 import com.example.myapplication55.ui.theme.MyApplication55Theme
 
 class MainActivity : ComponentActivity() {
@@ -14,8 +14,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MyApplication55Theme {
-                Catalog()
+            MyApplication55Theme() {
+                Welcome()
             }
         }
     }
@@ -25,6 +25,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     MyApplication55Theme {
-        Catalog()
+        Welcome()
     }
 }

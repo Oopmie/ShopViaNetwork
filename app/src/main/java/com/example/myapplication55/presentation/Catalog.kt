@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -48,7 +47,7 @@ fun Catalog(viewModel: ProductViewModel = koinViewModel(), onNavigateToCart: () 
     val totalPrice = viewModel.totalCartPrice
 
     LaunchedEffect(selectedCategory) {
-        viewModel.loadProducts(selectedCategory)
+//        viewModel.loadProducts(selectedCategory)
     }
     ConstraintLayout(
         modifier = Modifier
