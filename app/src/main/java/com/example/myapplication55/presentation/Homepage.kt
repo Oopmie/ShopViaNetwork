@@ -49,9 +49,9 @@ fun Homepage(viewModel: ProductViewModel = koinViewModel()) {
     var selectedCategory by remember { mutableStateOf("Все") }
     var searchIn by remember { mutableStateOf("") }
 
-    LaunchedEffect(selectedCategory) {
-        viewModel.loadProducts(selectedCategory)
-    }
+//    LaunchedEffect(selectedCategory) {
+//        viewModel.loadProducts(selectedCategory)
+//    }
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()

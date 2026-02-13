@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.myapplication55.presentation.auth.CreateAccount
 import com.example.myapplication55.presentation.auth.Welcome
 import com.example.myapplication55.ui.theme.MyApplication55Theme
 
@@ -15,7 +16,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyApplication55Theme() {
-                Welcome()
+                CreateAccount()
             }
         }
     }
