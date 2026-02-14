@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.myapplication55.presentation.project.CreateProject
+import com.example.myapplication55.presentation.Profile
 import com.example.myapplication55.ui.theme.MyApplication55Theme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyApplication55Theme() {
-                CreateProject()
+                Profile()
             }
         }
     }
