@@ -25,10 +25,9 @@ import com.example.uikit.ui.theme.Text
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun GenderDropdownField() {
-    val genders = listOf("Мужской", "Женский")
+fun MyDropdownField(dropText: String, categories: List<String>) {
     var expanded by remember { mutableStateOf(false) }
-    var selectedGender by remember { mutableStateOf("") }
+    var selected by remember { mutableStateOf("") }
 
     ExposedDropdownMenuBox(
         expanded = expanded,
@@ -36,12 +35,12 @@ fun GenderDropdownField() {
         modifier = Modifier.fillMaxWidth()
     ) {
         OutlinedTextField(
-            value = selectedGender,
+            value = selected,
             onValueChange = {},
             readOnly = true,
             placeholder = {
                 Text(
-                    "Пол",
+                    text = dropText,
                     color = CaptionColor,
                     style = Text.bodySmall
                 )
@@ -66,11 +65,11 @@ fun GenderDropdownField() {
             expanded = expanded,
             onDismissRequest = { expanded = false }
         ) {
-            genders.forEach { gender ->
+            categories.forEach { item ->
                 DropdownMenuItem(
-                    text = { Text(gender) },
+                    text = { Text(item) },
                     onClick = {
-                        selectedGender = gender
+                        selected = item
                         expanded = false
                     },
                 )

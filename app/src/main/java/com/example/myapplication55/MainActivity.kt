@@ -4,10 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.myapplication55.presentation.auth.CreateAccount
-import com.example.myapplication55.test.CardInCartScreen
+import com.example.myapplication55.presentation.project.CreateProject
 import com.example.myapplication55.ui.theme.MyApplication55Theme
 
 class MainActivity : ComponentActivity() {
@@ -16,7 +13,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyApplication55Theme() {
-                CardInCartScreen()
+                CreateProject()
             }
         }
     }

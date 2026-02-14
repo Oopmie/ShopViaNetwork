@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.uikit.AppTextField
-import com.example.uikit.GenderDropdownField
+import com.example.uikit.MyDropdownField
 import com.example.uikit.ui.theme.Accent
 import com.example.uikit.ui.theme.AccentInactive
 import com.example.uikit.ui.theme.Caption
@@ -80,7 +80,7 @@ fun CreateAccount() {
                 birthday = it
                 if (it.isNotBlank()) birthdayError = false
             }, isError = birthdayError, placeholder = "Дата рождения", errorText = "Введите дату рождения")
-            GenderDropdownField()
+            MyDropdownField(dropText = "Пол", categories = listOf("Мужской","Женский"))
             AppTextField(value = mail, onValueChange = {
                 mail = it
                 if (it.isNotBlank()) mailError = false
