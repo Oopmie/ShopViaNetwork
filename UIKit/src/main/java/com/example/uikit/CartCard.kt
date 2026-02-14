@@ -71,12 +71,36 @@ fun CardCart(
                 .padding(16.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.wrapContentHeight().fillMaxWidth()) {
-                Text(text = product.title, style = Headline.headlineMedium, modifier = Modifier.wrapContentHeight().fillMaxWidth(0.85f))
-                Button(onClick = onDeleteClick, modifier = Modifier.height(20.dp).width(20.dp), colors = ButtonColors(containerColor = White, contentColor = Black,
-                    disabledContainerColor = White, disabledContentColor = Black), contentPadding = PaddingValues(0.dp)
-                ) { Icon(
-                    imageVector= Icons.Default.Close, contentDescription = "delete", tint = Black) }
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .wrapContentHeight()
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    text = product.title,
+                    style = Headline.headlineMedium,
+                    modifier = Modifier
+                        .wrapContentHeight()
+                        .fillMaxWidth(0.85f)
+                )
+                Button(
+                    onClick = onDeleteClick,
+                    modifier = Modifier
+                        .height(20.dp)
+                        .width(20.dp),
+                    colors = ButtonColors(
+                        containerColor = White, contentColor = Black,
+                        disabledContainerColor = White, disabledContentColor = Black
+                    ),
+                    contentPadding = PaddingValues(0.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        contentDescription = "delete",
+                        tint = Black
+                    )
+                }
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
