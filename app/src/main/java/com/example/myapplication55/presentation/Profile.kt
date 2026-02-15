@@ -16,9 +16,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.imageResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.myapplication55.R
+import com.example.myapplication55.viewModel.AuthViewModel
 import com.example.uikit.ToggleButtonSc
 import com.example.uikit.ui.theme.Black
 import com.example.uikit.ui.theme.CaptionColor
@@ -27,9 +28,10 @@ import com.example.uikit.ui.theme.Headline
 import com.example.uikit.ui.theme.Text
 import com.example.uikit.ui.theme.Title1
 import com.example.uikit.ui.theme.Title3
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun Profile() {
+fun Profile(navController: NavController, viewModel: AuthViewModel = koinViewModel()) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -42,8 +44,12 @@ fun Profile() {
             verticalArrangement = Arrangement.spacedBy(50.dp)
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(15.dp)) {
-                Text(text = "d", style = Title1.titleLarge)
-                Text(text = "d", style = Headline.headlineSmall, color = CaptionColor)
+                Text(text = viewModel.userName, style = Title1.titleLarge)
+                Text(
+                    text = viewModel.userEmail,
+                    style = Headline.headlineSmall,
+                    color = CaptionColor
+                )
             }
             Column(
                 modifier = Modifier
@@ -62,7 +68,9 @@ fun Profile() {
                     TextButton({}) { Text("Мои заказы", color = Black, style = Title3.titleLarge) }
                 }
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(end = 26.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(end = 26.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Row(
@@ -74,7 +82,7 @@ fun Profile() {
                             bitmap = ImageBitmap.imageResource(R.drawable.sett),
                             contentDescription = "setting", modifier = Modifier.size(40.dp)
                         )
-                        Text("Уведомления", color = Black, style = Title3.titleLarge,)
+                        Text("Уведомления", color = Black, style = Title3.titleLarge)
                     }
                     ToggleButtonSc()
                 }
@@ -92,17 +100,16 @@ fun Profile() {
             TextButton({}) {
                 Text("Пользовательское соглашение", style = Text.bodyMedium, color = CaptionColor)
             }
-            TextButton({}) {
+            TextButton({
+                viewModel.logout {
+                    navController.navigate("welcome") {
+                        popUpTo(0) { inclusive = true }
+                    }
+                }
+            }) {
                 Text("Выход", style = Text.bodyMedium, color = Error)
 
             }
         }
     }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreddview() {
-    Profile()
 }

@@ -25,7 +25,10 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.myapplication55.R
+import com.example.myapplication55.viewModel.AuthViewModel
+import com.example.myapplication55.viewModel.ProductViewModel
 import com.example.uikit.PassTextField
 import com.example.uikit.ui.theme.Accent
 import com.example.uikit.ui.theme.AccentInactive
@@ -35,9 +38,10 @@ import com.example.uikit.ui.theme.Description
 import com.example.uikit.ui.theme.Text
 import com.example.uikit.ui.theme.Title1
 import com.example.uikit.ui.theme.White
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun CreatePass() {
+fun CreatePass(navController: NavController, viewModel: AuthViewModel = koinViewModel(), onSuccess: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -84,14 +88,18 @@ fun CreatePass() {
             PassTextField(value = pass2, onValueChange = {
                 pass2 = it
                 if (it.isNotBlank()) pass2Error = false
-            }, isError = pass2Error, errorText = "Повторите  пароль")
+            }, isError = pass2Error, errorText = "Пароли не совпадают")
             Button(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp), onClick = {
                     pass1Error = pass1.isBlank()
-                    pass2Error = pass2.isBlank()
-                    if (!pass1Error && !pass2Error) {
+                    pass2Error = pass2.isBlank() || pass1 != pass2
+                    if (pass1 == pass2) {
+                        viewModel.registerAndSaveAll(pass1) {
+                            onSuccess()
+                            navController.navigate("homepage")
+                        }
                     }
                 },
                 colors = ButtonColors(
@@ -106,10 +114,4 @@ fun CreatePass() {
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun Sssds() {
-    CreatePass()
 }

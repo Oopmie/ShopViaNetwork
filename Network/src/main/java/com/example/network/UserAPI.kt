@@ -33,7 +33,11 @@ interface UserAPI {
     suspend fun getUser(@Path("id_user") id: String): Response<User>
 
     @PUT("collections/users/records/{id_user}")
-    suspend fun updateUser(@Path("id_user") id: String): Response<User>
+    suspend fun updateUser(
+        @Header("Authorization") token: String,
+        @Path("id_user") id: String,
+        @Body user: User
+    ): Response<User>
 
     @POST("collections/users/auth-with-password")
     suspend fun authUser(@Body request: AuthRequest): Response<AuthResponse>
@@ -48,8 +52,10 @@ interface UserAPI {
     suspend fun seeSales(): Response<SalesAndNews>
 
     @GET("collections/products/records")
-    suspend fun productList(@Header("Authorization") token: String,
-                            @Query("filter") filter: String?=null): Response<ProductSearchList>
+    suspend fun productList(
+        @Header("Authorization") token: String,
+        @Query("filter") filter: String? = null
+    ): Response<ProductSearchList>
 
     @GET("collections/products/records/{id_product}")
     suspend fun productDescription(@Path("id_product") idProduct: String): Response<ProductDescription>

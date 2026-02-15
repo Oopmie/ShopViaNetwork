@@ -28,7 +28,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.myapplication55.R
+import com.example.myapplication55.viewModel.AuthViewModel
 import com.example.uikit.AppTextField
 import com.example.uikit.Login
 import com.example.uikit.PassTextField
@@ -42,7 +44,12 @@ import com.example.uikit.ui.theme.Title1
 import com.example.uikit.ui.theme.White
 
 @Composable
-fun Welcome() {
+fun Welcome(
+    navController: NavController,
+    viewModel: AuthViewModel,
+    onNavigateToHome: () -> Unit,
+    onNavigateToRegister: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -98,6 +105,21 @@ fun Welcome() {
                     mailError = mail.isBlank()
                     passError = pass.isBlank()
                     if (!mailError && !passError) {
+                        // Вызываем проверку входа
+                        viewModel.signIn(
+                            email = mail,
+                            pass = pass,
+                            onHome = {
+                                // Если залогинился — на главную
+                                navController.navigate("homepage") {
+                                    popUpTo("welcome") { inclusive = true }
+                                }
+                            },
+                            onRegister = {
+                                // Если аккаунта нет — на создание профиля
+                                navController.navigate("create_account")
+                            }
+                        )
                     }
                 },
                 colors = ButtonColors(
@@ -110,7 +132,7 @@ fun Welcome() {
             ) {
                 Text("Далее")
             }
-            TextButton({}) {
+            TextButton(onClick = onNavigateToRegister) {
                 Text(
                     "Зарегистрироваться",
                     color = Accent,
@@ -122,10 +144,4 @@ fun Welcome() {
         }
         Login(imageRes1 = R.drawable.vk, imageRes2 = R.drawable.yandex)
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun Sss() {
-    Welcome()
 }

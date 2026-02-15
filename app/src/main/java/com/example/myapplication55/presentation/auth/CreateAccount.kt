@@ -17,8 +17,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.example.myapplication55.viewModel.AuthViewModel
+import com.example.myapplication55.viewModel.ProductViewModel
+import com.example.network.model.Registration
 import com.example.uikit.AppTextField
 import com.example.uikit.MyDropdownField
 import com.example.uikit.ui.theme.Accent
@@ -27,9 +30,10 @@ import com.example.uikit.ui.theme.Caption
 import com.example.uikit.ui.theme.CaptionColor
 import com.example.uikit.ui.theme.Title1
 import com.example.uikit.ui.theme.White
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun CreateAccount() {
+fun CreateAccount(navController: NavController, viewModel: AuthViewModel = koinViewModel()) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -63,37 +67,57 @@ fun CreateAccount() {
             var birthdayError by remember { mutableStateOf(false) }
             var mail by remember { mutableStateOf("") }
             var mailError by remember { mutableStateOf(false) }
+            var gender by remember { mutableStateOf("") }
 
             AppTextField(value = name, onValueChange = {
                 name = it
                 if (it.isNotBlank()) nameError = false
             }, isError = nameError, placeholder = "Имя", errorText = "Введите имя")
-            AppTextField(value = secondName, onValueChange = {
-                secondName = it
-                if (it.isNotBlank()) secondNameError = false
-            }, isError = secondNameError, placeholder = "Отчество", errorText = "Введите отчество")
+            AppTextField(
+                value = secondName,
+                onValueChange = {
+                    secondName = it
+                    if (it.isNotBlank()) secondNameError = false
+                },
+                isError = secondNameError,
+                placeholder = "Отчество",
+                errorText = "Введите отчество"
+            )
             AppTextField(value = surname, onValueChange = {
                 surname = it
                 if (it.isNotBlank()) surnameError = false
             }, isError = surnameError, placeholder = "Фамилия", errorText = "Введите фамилию")
-            AppTextField(value = birthday, onValueChange = {
-                birthday = it
-                if (it.isNotBlank()) birthdayError = false
-            }, isError = birthdayError, placeholder = "Дата рождения", errorText = "Введите дату рождения")
-            MyDropdownField(dropText = "Пол", categories = listOf("Мужской","Женский"))
+            AppTextField(
+                value = birthday,
+                onValueChange = {
+                    birthday = it
+                    if (it.isNotBlank()) birthdayError = false
+                },
+                isError = birthdayError,
+                placeholder = "Дата рождения",
+                errorText = "Введите дату рождения"
+            )
+            MyDropdownField(dropText = "Пол", categories = listOf("Мужской", "Женский"))
             AppTextField(value = mail, onValueChange = {
                 mail = it
                 if (it.isNotBlank()) mailError = false
             }, isError = mailError, placeholder = "Почта", errorText = "Введите почту")
 
-            Button(modifier = Modifier.fillMaxWidth().padding(top = 30.dp).height(56.dp), onClick = {
-                nameError=name.isBlank()
-                secondNameError=secondName.isBlank()
-                surnameError=surname.isBlank()
-                birthdayError=birthday.isBlank()
-                mailError=mail.isBlank()
-                if(!nameError&&!secondNameError&&!surnameError&&!birthdayError&&!mailError){}
-            },
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 30.dp)
+                    .height(56.dp),
+                onClick = {
+                    viewModel.name = name
+                    viewModel.surname = surname
+                    viewModel.sName = secondName
+                    viewModel.birth = birthday
+                    viewModel.email = mail
+                    viewModel.gender = gender
+
+                    navController.navigate("create_pass")
+                 },
                 colors = ButtonColors(
                     containerColor = Accent,
                     contentColor = White,
@@ -106,10 +130,4 @@ fun CreateAccount() {
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun Ss() {
-    CreateAccount()
 }

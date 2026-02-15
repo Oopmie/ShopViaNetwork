@@ -4,16 +4,19 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.myapplication55.presentation.Profile
+import androidx.navigation.compose.rememberNavController
+import com.example.myapplication55.presentation.AppNavigation
 import com.example.myapplication55.ui.theme.MyApplication55Theme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MyApplication55Theme() {
-                Profile()
+            val navController = rememberNavController()
+            MyApplication55Theme {
+                AppNavigation(navController = navController)
             }
         }
     }

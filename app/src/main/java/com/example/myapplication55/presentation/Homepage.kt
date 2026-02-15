@@ -34,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.myapplication55.R
+import com.example.myapplication55.presentation.auth.CreatePass
 import com.example.myapplication55.viewModel.ProductViewModel
 import com.example.uikit.CardScreen
 import com.example.uikit.CategoryLazy
