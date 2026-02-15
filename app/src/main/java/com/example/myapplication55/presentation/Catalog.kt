@@ -1,5 +1,6 @@
 package com.example.myapplication55.presentation
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -32,8 +33,14 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.IconButton
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.constraintlayout.compose.Dimension
+import androidx.navigation.NavHostController
+import com.example.myapplication55.R
 import com.example.uikit.ui.theme.Black
 import com.example.uikit.ui.theme.CaptionColor
 import com.example.uikit.ui.theme.Title3
@@ -41,18 +48,22 @@ import com.example.uikit.ui.theme.White
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun Catalog(viewModel: ProductViewModel = koinViewModel(), onNavigateToCart: () -> Unit = {}) {
+fun Catalog(
+    navController: NavHostController,
+    viewModel: ProductViewModel = koinViewModel(),
+    onNavigateToCart: () -> Unit = {}
+) {
     var selectedCategory by remember { mutableStateOf("Все") }
     var searchIn by remember { mutableStateOf("") }
     val totalPrice = viewModel.totalCartPrice
 
     LaunchedEffect(selectedCategory) {
-//        viewModel.loadProducts(selectedCategory)
+        viewModel.loadProducts(selectedCategory)
     }
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
-            .padding(20.dp, 60.dp)
+            .padding(horizontal = 20.dp)
     ) {
         val (search, catalogDesc, lazyCat, productList, btnGoToCart) = createRefs()
         Row(
@@ -70,12 +81,17 @@ fun Catalog(viewModel: ProductViewModel = koinViewModel(), onNavigateToCart: () 
                     placeholder = "Искать описания"
                 )
             }
-            Icon(
-                imageVector = Icons.Default.AccountCircle,
-                contentDescription = "Search",
-                tint = Black,
-                modifier = Modifier.size(50.dp)
-            )
+            IconButton(
+                onClick = { navController.navigate("profile") },
+                modifier = Modifier.size(45.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.user),
+                    contentDescription = "Profile",
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Fit
+                )
+            }
         }
         Text(
             "Каталог описаний",
@@ -94,27 +110,25 @@ fun Catalog(viewModel: ProductViewModel = koinViewModel(), onNavigateToCart: () 
         }
         LazyColumn(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(PaddingValues(vertical = 15.dp))
                 .constrainAs(productList) {
                     top.linkTo(lazyCat.bottom, 15.dp)
-                }) {
+                    bottom.linkTo(btnGoToCart.top, 10.dp)
+                    height = Dimension.fillToConstraints
+                },
+            verticalArrangement = Arrangement.spacedBy(15.dp)
+        ) {
             items(viewModel.products) { itemProduct ->
                 CardScreen(
                     product = itemProduct,
                     description = viewModel.description,
                     isAdded = viewModel.addedProductIds.value.contains(itemProduct.id),
-                    onCardClick = {
-                        viewModel.loadDescription(itemProduct.id)
-                    },
-                    onToggleClick = {
-                        viewModel.toggleProduct(itemProduct.id)
-                    }
+                    onCardClick = { viewModel.loadDescription(itemProduct.id) },
+                    onToggleClick = { viewModel.toggleProduct(itemProduct.id) }
                 )
             }
         }
         Button(
-            onClick = { onNavigateToCart() },
+            onClick = { navController.navigate("cart")},
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp)

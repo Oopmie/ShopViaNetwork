@@ -46,7 +46,7 @@ fun CardScreen(
     description: ProductDescription?,
     isAdded: Boolean,
     onCardClick:()-> Unit,
-    onToggleClick: (Boolean) -> Unit
+    onToggleClick: () -> Unit
 ) {
     var showDialog by remember { mutableStateOf(false) }
 
@@ -75,7 +75,7 @@ fun CardScreen(
                 }
                 SmallButton(
                     isAdded = isAdded,
-                    onToggle = { onToggleClick(it) },
+                    onToggle = { onToggleClick() },
                     textDelete = "Убрать",
                     textAdd = "Добавить",
                     modifier = Modifier.width(130.dp).height(40.dp)
@@ -122,7 +122,7 @@ fun CardScreen(
                         }
                         SmallButton(
                             isAdded = isAdded,
-                            onToggle = { onToggleClick(it) },
+                            onToggle = { onToggleClick() },
                             textDelete = "Убрать",
                             textAdd = "Добавить за ${product.price} ₽",
                             modifier = Modifier.fillMaxWidth().height(56.dp)

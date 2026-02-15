@@ -70,7 +70,8 @@ interface UserAPI {
     suspend fun createCart(@Body request: CartRequest): Response<CartResponse>
 
     @PUT("collections/cart/records/{id_bucket}")
-    suspend fun updateCart(@Path("id_bucket") id: String): Response<CartResponse>
+    suspend fun updateCart(@Path("id_bucket") id: String,
+                           @Body body: Map<String, Int>): Response<CartResponse>
 
     @POST("collections/orders/records")
     suspend fun createOrder(@Body request: OrderRequest): Response<OrderResponse>

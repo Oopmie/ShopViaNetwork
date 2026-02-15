@@ -33,6 +33,8 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
+import androidx.navigation.NavController
 import com.example.myapplication55.R
 import com.example.myapplication55.presentation.auth.CreatePass
 import com.example.myapplication55.viewModel.ProductViewModel
@@ -46,22 +48,27 @@ import com.example.uikit.ui.theme.White
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun Homepage(viewModel: ProductViewModel = koinViewModel()) {
+fun Homepage(
+    navController: NavController,
+    viewModel: ProductViewModel = koinViewModel()
+) {
     var selectedCategory by remember { mutableStateOf("Все") }
     var searchIn by remember { mutableStateOf("") }
 
-//    LaunchedEffect(selectedCategory) {
-//        viewModel.loadProducts(selectedCategory)
-//    }
+    LaunchedEffect(selectedCategory) {
+        viewModel.loadProducts(selectedCategory)
+    }
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
-            .padding(20.dp, 60.dp)
+            .padding(horizontal = 20.dp)
     ) {
         val (search, textSales, card, catalogDesc, lazyCat, productList) = createRefs()
-        Box(modifier = Modifier.constrainAs(search) {
-            top.linkTo(parent.top, 0.dp)
-        }) {
+        Box(modifier = Modifier
+            .padding(top = 20.dp)
+            .constrainAs(search) {
+                top.linkTo(parent.top, 0.dp)
+            }) {
             Search(
                 value = searchIn,
                 onValueChange = { searchIn = it },
@@ -157,10 +164,10 @@ fun Homepage(viewModel: ProductViewModel = koinViewModel()) {
         }
         LazyColumn(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(PaddingValues(vertical = 15.dp))
                 .constrainAs(productList) {
                     top.linkTo(lazyCat.bottom, 15.dp)
+                    bottom.linkTo(parent.bottom)
+                    height = Dimension.fillToConstraints
                 }) {
             items(viewModel.products) { itemProduct ->
                 CardScreen(
@@ -178,16 +185,3 @@ fun Homepage(viewModel: ProductViewModel = koinViewModel()) {
         }
     }
 }
-
-//@Composable
-//fun ComposableScreen() {
-//    Scaffold(
-//        bottomBar = {
-//            PacktBottomNavigationBar()
-//        }
-//    ) { innerPadding ->
-//        Box(modifier = Modifier.padding(innerPadding)) {
-//            Catalog()
-//        }
-//    }
-//}

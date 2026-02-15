@@ -16,7 +16,8 @@ import com.example.network.model.SearchList
 import kotlinx.coroutines.launch
 
 class ProductViewModel(
-    val api: UserAPI, private val sessionManager: SessionManager
+    val api: UserAPI,
+    private val sessionManager: SessionManager
 ) : ViewModel() {
     var products by mutableStateOf<List<SearchList>>(emptyList())
     var description by mutableStateOf<ProductDescription?>(null)
@@ -35,9 +36,7 @@ class ProductViewModel(
     }
 
     fun toggleProduct(productId: String) {
-        val isCurrentlyAdded = addedProductIds.value.contains(productId)
-
-        if (isCurrentlyAdded) {
+        if (addedProductIds.value.contains(productId)) {
             addedProductIds.value = addedProductIds.value - productId
         } else {
             addToCart(productId)
@@ -54,18 +53,20 @@ class ProductViewModel(
             }
         }
     }
+    fun deleteFromCart(productId: String) {
+        addedProductIds.value = addedProductIds.value - productId
+    }
 
-
-//    fun loadProducts(category: String) {
-//        viewModelScope.launch {
-//            val token = "Bearer ${sessionManager.getToken()}"
-//            val filter = if (category == "Все") null else "type='$category'"
-//            val response = api.productList(token, filter)
-//            if (response.isSuccessful) {
-//                products = response.body()?.items ?: emptyList()
-//            }
-//        }
-//    }
+    fun loadProducts(category: String) {
+        viewModelScope.launch {
+            val token = "Bearer ${sessionManager.getToken()}"
+            val filter = if (category == "Все") null else "type='$category'"
+            val response = api.productList(token, filter)
+            if (response.isSuccessful) {
+                products = response.body()?.items ?: emptyList()
+            }
+        }
+    }
 
     init {
         products = listOf(

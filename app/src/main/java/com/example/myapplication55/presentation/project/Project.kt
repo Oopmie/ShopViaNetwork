@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.uikit.AppTextField
 import com.example.uikit.MyDropdownField
 import com.example.uikit.ui.theme.Accent
@@ -31,7 +32,7 @@ import com.example.uikit.ui.theme.Title2
 import com.example.uikit.ui.theme.White
 
 @Composable
-fun CreateProject() {
+fun CreateProject(navController: NavController,) {
     Column(
         verticalArrangement = Arrangement.spacedBy(15.dp),
         modifier = Modifier
@@ -132,10 +133,4 @@ fun CreateProject() {
             Text("Подтвердить")
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun Ssdds() {
-    CreateProject()
 }

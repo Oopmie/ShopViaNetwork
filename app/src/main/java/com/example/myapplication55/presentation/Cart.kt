@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
@@ -36,6 +37,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.myapplication55.viewModel.ProductViewModel
 import com.example.network.model.CartResponse
+import com.example.network.model.ProductDescription
 import com.example.uikit.BigButton
 import com.example.uikit.CardCart
 import com.example.uikit.ui.theme.Accent
@@ -52,15 +54,6 @@ import org.koin.androidx.compose.koinViewModel
 fun CardInCartScreen(navController: NavController, viewModel: ProductViewModel = koinViewModel()) {
     val product = viewModel.products.firstOrNull()
     val description = viewModel.description
-    if (product != null && description != null) {
-        CardCart(
-            product = product,
-            description = description,
-            cartEntry = CartResponse,
-            onDeleteClick = {},
-            onCountUpdate = {}
-        )
-    }
     val totalPrice = viewModel.totalCartPrice
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -92,10 +85,17 @@ fun CardInCartScreen(navController: NavController, viewModel: ProductViewModel =
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 IconButton(
-                    modifier = Modifier.size(35.dp).background(InputBg, RoundedCornerShape(8.dp)),
+                    modifier = Modifier
+                        .size(35.dp)
+                        .background(InputBg, RoundedCornerShape(8.dp)),
                     onClick = { navController.popBackStack() },
                 ) {
-                    Icon(Icons.Filled.ArrowBackIosNew, "back", tint = Description, modifier = Modifier.size(18.dp))
+                    Icon(
+                        Icons.Filled.ArrowBackIosNew,
+                        "back",
+                        tint = Description,
+                        modifier = Modifier.size(18.dp)
+                    )
                 }
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -103,20 +103,65 @@ fun CardInCartScreen(navController: NavController, viewModel: ProductViewModel =
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text("Корзина", style = Title1.titleLarge)
-                    IconButton(onClick = {  }) {
+                    IconButton(onClick = { }) {
                         Icon(Icons.Filled.DeleteOutline, "delete", tint = Description)
                     }
                 }
             }
 
             LazyColumn(
-                modifier = Modifier.weight(1f).fillMaxWidth().padding(top = 20.dp),
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+                    .padding(top = 20.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-                // товары в viewModel.products
+                val cartProducts =
+                    viewModel.products.filter { it.id in viewModel.addedProductIds.value }
+
+                items(cartProducts) { item ->
+                    CardCart(
+                        product = item,
+                        description = viewModel.description ?: ProductDescription(
+                            approximateCost = "",
+                            description = "",
+                            title = "",
+                            price = 0,
+                            type = "",
+                            typeCloses = "",
+                            id = "",
+                            collectionId = "",
+                            collectionName = "",
+                            created = "",
+                            updated = "",
+                        ),
+                        cartEntry = CartResponse(
+                            id = item.id,
+                            productId = item.id,
+                            count = 1,
+                            userId = "",
+                            collectionId = "",
+                            collectionName = "",
+                            created = "",
+                            updated = ""
+                        ),
+                        onDeleteClick = {
+                            viewModel.deleteFromCart(item.id)
+                        },
+                        onCountUpdate = { newCount ->
+                        }
+                    )
+                }
             }
-            Column(modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp)) {
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 20.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
                     Text("Сумма", style = Title2.titleMedium)
                     Text("$totalPrice ₽", style = Title2.titleMedium)
                 }
@@ -125,7 +170,7 @@ fun CardInCartScreen(navController: NavController, viewModel: ProductViewModel =
                     enabled = totalPrice > 0,
                     text = "Перейти к оформлению заказа",
                     onClick = {
-                        scope.launch{
+                        scope.launch {
                             val job = launch {
                                 snackbarHostState.showSnackbar(
                                     message = "Заказ успешно оформлен!",
@@ -143,10 +188,4 @@ fun CardInCartScreen(navController: NavController, viewModel: ProductViewModel =
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun efef(){
-    CardInCartScreen(navController = NavController)
 }
