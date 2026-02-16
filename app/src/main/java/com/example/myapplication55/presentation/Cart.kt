@@ -1,5 +1,6 @@
 package com.example.myapplication55.presentation
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,12 +27,14 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -75,7 +78,7 @@ fun CardInCartScreen(navController: NavController, viewModel: ProductViewModel =
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(20.dp, 60.dp),
+                .padding(horizontal = 20.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Column(
@@ -103,7 +106,7 @@ fun CardInCartScreen(navController: NavController, viewModel: ProductViewModel =
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text("Корзина", style = Title1.titleLarge)
-                    IconButton(onClick = { }) {
+                        IconButton(onClick = { viewModel.clearFullCart() }) {
                         Icon(Icons.Filled.DeleteOutline, "delete", tint = Description)
                     }
                 }
@@ -116,41 +119,33 @@ fun CardInCartScreen(navController: NavController, viewModel: ProductViewModel =
                     .padding(top = 20.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-                val cartProducts =
-                    viewModel.products.filter { it.id in viewModel.addedProductIds.value }
+                val cartEntries = viewModel.cartMap.value.toList()
 
-                items(cartProducts) { item ->
-                    CardCart(
-                        product = item,
-                        description = viewModel.description ?: ProductDescription(
-                            approximateCost = "",
-                            description = "",
-                            title = "",
-                            price = 0,
-                            type = "",
-                            typeCloses = "",
-                            id = "",
-                            collectionId = "",
-                            collectionName = "",
-                            created = "",
-                            updated = "",
-                        ),
-                        cartEntry = CartResponse(
-                            id = item.id,
-                            productId = item.id,
-                            count = 1,
-                            userId = "",
-                            collectionId = "",
-                            collectionName = "",
-                            created = "",
-                            updated = ""
-                        ),
-                        onDeleteClick = {
-                            viewModel.deleteFromCart(item.id)
-                        },
-                        onCountUpdate = { newCount ->
-                        }
-                    )
+                items(
+                    cartEntries,
+                    key = { it.first })
+                { (productId, count) ->
+                    val product = viewModel.products.find { it.id == productId }
+                    if (product != null)
+                        CardCart(
+                            product = product,
+                            cartEntry = CartResponse(
+                                id = productId,
+                                productId = productId,
+                                count = count,
+                                userId = "",
+                                collectionId = "",
+                                collectionName = "",
+                                created = "",
+                                updated = ""
+                            ),
+                            onDeleteClick = {
+                                viewModel.deleteFromCart(productId)
+                            },
+                            onCountUpdate = { newCount ->
+                                viewModel.updateCartCount(productId, newCount)
+                            }
+                        )
                 }
             }
             Column(
@@ -177,7 +172,8 @@ fun CardInCartScreen(navController: NavController, viewModel: ProductViewModel =
                                     duration = SnackbarDuration.Indefinite
                                 )
                             }
-                            delay(5000)
+                            delay(2000)
+                            viewModel.clearFullCart()
                             job.cancel()
                             navController.navigate("homepage") {
                                 popUpTo("homepage") { inclusive = true }

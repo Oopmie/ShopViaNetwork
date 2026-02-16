@@ -21,5 +21,5 @@ val appModules= module {
     }
     single { get<Retrofit>().create(UserAPI::class.java) }
     viewModel { AuthViewModel(get(), get()) }
-    viewModel { ProductViewModel(get(), get()) }
+    single { ProductViewModel(get(), get()) }
 }

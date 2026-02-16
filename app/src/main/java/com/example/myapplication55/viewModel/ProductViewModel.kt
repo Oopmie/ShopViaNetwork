@@ -1,6 +1,8 @@
 package com.example.myapplication55.viewModel
 
+import android.util.Log
 import androidx.compose.material3.Text
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -13,6 +15,7 @@ import com.example.network.model.CartRequest
 import com.example.network.model.OrderRequest
 import com.example.network.model.ProductDescription
 import com.example.network.model.SearchList
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ProductViewModel(
@@ -21,40 +24,50 @@ class ProductViewModel(
 ) : ViewModel() {
     var products by mutableStateOf<List<SearchList>>(emptyList())
     var description by mutableStateOf<ProductDescription?>(null)
-    var addedProductIds = mutableStateOf(setOf<String>())
+    var cartMap = mutableStateOf<Map<String, Int>>(emptyMap())
         private set
-    val totalCartPrice: Int
-        get() = products
-            .filter { it.id in addedProductIds.value }
-            .sumOf { it.price }
+    val addedProductIds = derivedStateOf { cartMap.value.keys }
 
-    fun checkout(onComplete: () -> Unit) {
-        viewModelScope.launch {
-            addedProductIds.value = emptySet()
-            onComplete()
+    val totalCartPrice: Int
+        get() {
+            val currentCart = cartMap.value
+            return currentCart.entries.sumOf { (productId, count) ->
+                val product = products.find { it.id == productId }
+                val price = product?.price ?: 0
+                price * count
+            }
+        }
+
+    fun updateCartCount(productId: String, newCount: Int) {
+        if (newCount < 1) {
+            deleteFromCart(productId)
+        } else {
+            cartMap.value = cartMap.value.toMutableMap().apply {
+                this[productId] = newCount
+            }
         }
     }
 
     fun toggleProduct(productId: String) {
-        if (addedProductIds.value.contains(productId)) {
-            addedProductIds.value = addedProductIds.value - productId
+        if (cartMap.value.containsKey(productId)) {
+            deleteFromCart(productId)
         } else {
-            addToCart(productId)
+            cartMap.value = cartMap.value + (productId to 1)
         }
     }
 
-    fun addToCart(productId: String) {
-        viewModelScope.launch {
-            val userId = sessionManager.getUserId() ?: "guest"
-            val request = CartRequest(userId = userId, productId = productId, count = 1)
-            val response = api.createCart(request)
-            if (response.isSuccessful) {
-                addedProductIds.value = addedProductIds.value + productId
-            }
-        }
-    }
     fun deleteFromCart(productId: String) {
-        addedProductIds.value = addedProductIds.value - productId
+        Log.e("CART_DEBUG", "Удаляем товар: $productId")
+        cartMap.value = cartMap.value - productId
+        Log.e("CART_DEBUG", "Осталось товаров: ${cartMap.value.size}")
+    }
+
+    fun checkout(onComplete: () -> Unit) {
+        viewModelScope.launch {
+            delay(500)
+            cartMap.value = emptyMap()
+            onComplete()
+        }
     }
 
     fun loadProducts(category: String) {
@@ -67,6 +80,19 @@ class ProductViewModel(
             }
         }
     }
+
+    fun clearFullCart() {
+        val newEmptyMap = emptyMap<String, Int>()
+        cartMap.value = newEmptyMap
+    }
+
+
+
+
+
+
+
+
 
     init {
         products = listOf(

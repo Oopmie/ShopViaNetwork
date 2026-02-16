@@ -168,18 +168,15 @@ fun Homepage(
                     top.linkTo(lazyCat.bottom, 15.dp)
                     bottom.linkTo(parent.bottom)
                     height = Dimension.fillToConstraints
-                }) {
+                },
+            verticalArrangement = Arrangement.spacedBy(15.dp)) {
             items(viewModel.products) { itemProduct ->
                 CardScreen(
                     product = itemProduct,
                     description = viewModel.description,
                     isAdded = viewModel.addedProductIds.value.contains(itemProduct.id),
-                    onCardClick = {
-                        viewModel.loadDescription(itemProduct.id)
-                    },
-                    onToggleClick = {
-                        viewModel.toggleProduct(itemProduct.id)
-                    }
+                    onCardClick = { viewModel.loadDescription(itemProduct.id) },
+                    onToggleClick = { viewModel.toggleProduct(itemProduct.id) }
                 )
             }
         }

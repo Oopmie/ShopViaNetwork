@@ -15,6 +15,7 @@ import com.example.myapplication55.presentation.auth.CreateAccount
 import com.example.myapplication55.presentation.auth.CreatePass
 import com.example.myapplication55.presentation.auth.Welcome
 import com.example.myapplication55.presentation.project.CreateProject
+import com.example.myapplication55.presentation.project.ProjectList
 import com.example.myapplication55.viewModel.AuthViewModel
 import com.example.uikit.AppBottomBar
 import com.example.uikit.BottomNavItemData
@@ -74,9 +75,7 @@ fun AppNavigation(
                 )
             }
 
-            composable("create_account") {
-                CreateAccount(navController = navController, viewModel = viewModel)
-            }
+            composable("create_account") { CreateAccount(navController = navController, viewModel = viewModel) }
 
             composable("create_pass") {
                 CreatePass(
@@ -92,7 +91,8 @@ fun AppNavigation(
             composable("homepage") { Homepage(navController) }
             composable("catalog") { Catalog(navController = navController, viewModel = koinViewModel()) }
             composable("cart") { CardInCartScreen(navController = navController) }
-            composable("project") { CreateProject(navController) }
+            composable("project") { ProjectList(navController) }
+            composable("createProject") { CreateProject(navController) }
             composable("profile") { Profile(navController, viewModel) }
         }
     }

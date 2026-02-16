@@ -49,16 +49,12 @@ import com.example.uikit.ui.theme.White
 @Composable
 fun CardCart(
     product: SearchList,
-    description: ProductDescription,
     cartEntry: CartResponse,
     onDeleteClick: () -> Unit,
     onCountUpdate: (Int) -> Unit
 ) {
-    var showDialog by remember { mutableStateOf(false) }
-
     Card(
         modifier = Modifier
-            .clickable { showDialog = true }
             .fillMaxWidth()
             .height(160.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -111,61 +107,6 @@ fun CardCart(
                     Text(text = "${product.price} ₽", style = Title3.titleLarge)
                 }
                 CounterButton(initialCount = cartEntry.count, onCountChange = onCountUpdate)
-            }
-        }
-        if (showDialog) {
-            Dialog(
-                onDismissRequest = { showDialog = false },
-                properties = DialogProperties(usePlatformDefaultWidth = false),
-            ) {
-                Box(
-                    contentAlignment = Alignment.BottomCenter,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clickable { showDialog = false }
-                ) {
-                    Surface(
-                        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
-                        color = Color.White,
-                        modifier = Modifier
-                            .wrapContentHeight()
-                            .fillMaxWidth()
-                            .clickable(enabled = false) {}
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxHeight(0.8f)
-                                .padding(16.dp)
-                                .navigationBarsPadding(),
-                            verticalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text(text = product.title, style = Title2.headlineMedium)
-                            Text(
-                                text = "Описание",
-                                style = Headline.headlineMedium,
-                                color = Color(0xFF939396)
-                            )
-                            Text(
-                                text = description.description,
-                                style = Headline.headlineMedium,
-                                modifier = Modifier.weight(1f, fill = false)
-                            )
-
-                            Column(Modifier.padding(bottom = 60.dp)) {
-                                Text(
-                                    text = "Примерный расход:",
-                                    style = Caption.bodyMedium,
-                                    color = Color(0xFF939396)
-                                )
-                                Text(
-                                    text = "${description.approximateCost} г",
-                                    style = Headline.headlineMedium,
-                                    color = Color.Black
-                                )
-                            }
-                        }
-                    }
-                }
             }
         }
     }
