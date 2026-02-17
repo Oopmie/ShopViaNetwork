@@ -43,15 +43,11 @@ fun PassTextField(
     Column(modifier = modifier.fillMaxWidth()) {
         OutlinedTextField(
             value = value,
-            onValueChange = { newValue ->
-                if (newValue.all { it.isDigit() }) {
-                    onValueChange(newValue)
-                }
+            onValueChange = { newValue -> onValueChange(newValue)
             },
             modifier = Modifier.fillMaxWidth(),
             isError = isError,
             visualTransformation = if (passVisibility) VisualTransformation.None else PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
             trailingIcon = {
                 val image =
                     if (passVisibility) Icons.Filled.Visibility else Icons.Filled.VisibilityOff

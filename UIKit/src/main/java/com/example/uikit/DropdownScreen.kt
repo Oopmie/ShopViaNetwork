@@ -28,52 +28,27 @@ import com.example.uikit.ui.theme.Text
 fun MyDropdownField(dropText: String, categories: List<String>) {
     var expanded by remember { mutableStateOf(false) }
     var selected by remember { mutableStateOf("") }
-
     ExposedDropdownMenuBox(
         expanded = expanded,
         onExpandedChange = { expanded = !expanded },
-        modifier = Modifier.fillMaxWidth()
-    ) {
+        modifier = Modifier.fillMaxWidth()) {
         OutlinedTextField(
             value = selected,
             onValueChange = {},
             readOnly = true,
             placeholder = {
-                Text(
-                    text = dropText,
-                    color = CaptionColor,
-                    style = Text.bodySmall
-                )
-            },
-            trailingIcon = {
-                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-            },
+                Text(text = dropText, color = CaptionColor, style = Text.bodySmall) },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             shape = RoundedCornerShape(10.dp),
-            modifier = Modifier
-                .menuAnchor()
-                .fillMaxWidth(),
+            modifier = Modifier.menuAnchor().fillMaxWidth(),
             colors = OutlinedTextFieldDefaults.colors(
-                unfocusedTextColor = Black,
-                focusedTextColor = Black,
-                focusedBorderColor = Color(0xFF007AFF),
-                unfocusedBorderColor = Color.LightGray,
-                unfocusedContainerColor = InputBg,
-                focusedContainerColor = InputBg
-            )
-        )
-        ExposedDropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            categories.forEach { item ->
-                DropdownMenuItem(
-                    text = { Text(item) },
-                    onClick = {
-                        selected = item
-                        expanded = false
-                    },
-                )
-            }
+                unfocusedTextColor = Black, focusedTextColor = Black,
+                unfocusedBorderColor = Color.LightGray, focusedBorderColor = Color(0xFF007AFF),
+                unfocusedContainerColor = InputBg, focusedContainerColor = InputBg))
+        ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+            categories.forEach { item -> DropdownMenuItem(text = { Text(item) },
+                    onClick = { selected = item
+                        expanded = false },) }
         }
     }
 }

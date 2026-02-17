@@ -11,17 +11,14 @@ import androidx.compose.runtime.setValue
 @Composable
 fun CategoryLazy(
     selected: String,
-    onCategoryClick: (String) -> Unit
-) {
-    var selectedCategory by remember { mutableStateOf("Все") }
-    LazyRow() {
-        val categories = listOf("Все", "Женщинам", "Мужчинам")
+    categories: List<String>,
+    onCategoryClick: (String) -> Unit) {
+    LazyRow {
         items(categories) { category ->
             CategoryChip(
                 categoryName = category,
-                isSelected = (category == selectedCategory),
-                onCategoryClick = { selectedCategory = category }
-            )
+                isSelected = (category == selected),
+                onCategoryClick = { onCategoryClick(category) })
         }
     }
 }

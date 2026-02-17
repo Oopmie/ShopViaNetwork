@@ -46,87 +46,58 @@ fun CardScreen(
     description: ProductDescription?,
     isAdded: Boolean,
     onCardClick:()-> Unit,
-    onToggleClick: () -> Unit
-) {
+    onToggleClick: () -> Unit ) {
     var showDialog by remember { mutableStateOf(false) }
-
     Card(
         modifier = Modifier
-            .clickable { showDialog = true }
-            .fillMaxWidth()
-            .height(160.dp),
+            .clickable { onCardClick()
+                showDialog = true }.fillMaxWidth().height(160.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         border = BorderStroke(1.dp, color = Color(0xFFF4F4F4)),
-        elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)
-    ) {
+        elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)) {
         Column(
             modifier = Modifier.fillMaxSize().padding(16.dp),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
+            verticalArrangement = Arrangement.SpaceBetween) {
             Text(text = product.title, style = Headline.headlineMedium)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Bottom
-            ) {
+                verticalAlignment = Alignment.Bottom) {
                 Column {
                     Text(text = product.type, style = Caption.bodyMedium, color = CaptionColor)
-                    Text(text = "${product.price} ₽", style = Title3.titleLarge)
-                }
+                    Text(text = "${product.price} ₽", style = Title3.titleLarge) }
                 SmallButton(
-                    isAdded = isAdded,
-                    onToggle = { onToggleClick() },
-                    textDelete = "Убрать",
-                    textAdd = "Добавить",
-                    modifier = Modifier.width(130.dp).height(40.dp)
-                )
-            }
-        }
-    }
-
+                    isAdded = isAdded, onToggle = { onToggleClick() },
+                    textAdd = "Добавить", modifier = Modifier.width(130.dp).height(40.dp)) } } }
     if (showDialog) {
         Dialog(
             onDismissRequest = { showDialog = false },
-            properties = DialogProperties(usePlatformDefaultWidth = false),
-        ) {
+            properties = DialogProperties(usePlatformDefaultWidth = false),) {
             Box(
                 contentAlignment = Alignment.BottomCenter,
-                modifier = Modifier.fillMaxSize().clickable { showDialog = false }
-            ) {
+                modifier = Modifier.fillMaxSize().clickable { showDialog = false }) {
                 Surface(
                     shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
-                    color = Color.White,
-                    modifier = Modifier
-                        .wrapContentHeight()
-                        .fillMaxWidth()
-                        .clickable(enabled = false) {}
-                ) {
+                    color = Color.White, modifier = Modifier.wrapContentHeight().fillMaxWidth()
+                        .clickable(enabled = false) {}) {
                     Column(
                         modifier = Modifier
-                            .fillMaxHeight(0.8f)
-                            .padding(16.dp)
-                            .navigationBarsPadding(),
-                        verticalArrangement = Arrangement.SpaceBetween
-                    ) {
+                            .fillMaxHeight(0.8f).padding(16.dp).navigationBarsPadding(),
+                        verticalArrangement = Arrangement.SpaceBetween) {
                         Text(text = product.title, style = Title2.headlineMedium)
                         Text(text = "Описание", style = Headline.headlineMedium, color = Color(0xFF939396))
                         Text(
                             text = description?.description ?:"Загрузка..",
                             style = Headline.headlineMedium,
-                            modifier = Modifier.weight(1f, fill = false)
-                        )
-
+                            modifier = Modifier.weight(1f, fill = false))
                         Column {
                             Text(text = "Примерный расход:", style = Caption.bodyMedium, color = Color(0xFF939396))
-                            Text(text = "${description?.approximateCost} г", style = Headline.headlineMedium, color = Color.Black)
-                        }
+                            Text(text = "${description?.approximateCost} г", style = Headline.headlineMedium, color = Color.Black) }
                         SmallButton(
                             isAdded = isAdded,
                             onToggle = { onToggleClick() },
-                            textDelete = "Убрать",
                             textAdd = "Добавить за ${product.price} ₽",
-                            modifier = Modifier.fillMaxWidth().height(56.dp)
-                        )
+                            modifier = Modifier.fillMaxWidth().height(56.dp))
                     }
                 }
             }

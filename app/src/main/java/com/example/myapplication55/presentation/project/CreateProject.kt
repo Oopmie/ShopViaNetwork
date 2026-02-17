@@ -19,9 +19,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.myapplication55.viewModel.AuthViewModel
 import com.example.uikit.AppTextField
 import com.example.uikit.MyDropdownField
 import com.example.uikit.ui.theme.Accent
@@ -32,34 +32,28 @@ import com.example.uikit.ui.theme.Title2
 import com.example.uikit.ui.theme.White
 
 @Composable
-fun CreateProject(navController: NavController,) {
+fun CreateProject(navController: NavController,
+                  viewModel: AuthViewModel, projectId: String?) {
+    val existing = viewModel.userProjects.find { it.id == projectId }
     Column(
         verticalArrangement = Arrangement.spacedBy(15.dp),
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(20.dp, 60.dp)
+        modifier = Modifier.fillMaxSize().padding(20.dp, 60.dp)
     ) {
-        var name by remember { mutableStateOf("") }
+        var name by remember { mutableStateOf(existing?.title ?:"") }
         var nameError by remember { mutableStateOf(false) }
-        var startDate by remember { mutableStateOf("") }
+        var startDate by remember { mutableStateOf(existing?.dateStart ?:"") }
         var startDateError by remember { mutableStateOf(false) }
-        var endDate by remember { mutableStateOf("") }
+        var endDate by remember { mutableStateOf(existing?.dateEnd ?:"") }
         var endDateError by remember { mutableStateOf(false) }
-        var mail by remember { mutableStateOf("") }
+        var mail by remember { mutableStateOf(existing?.descriptionSource ?:"") }
         var mailError by remember { mutableStateOf(false) }
-        Text(
-            "Создать проект",
+        Text("Создать проект",
             style = Title2.titleMedium,
             textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth()
-        )
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxHeight(0.8f)
-                .weight(1f),
+            modifier = Modifier.fillMaxWidth() )
+        LazyColumn(modifier = Modifier.fillMaxHeight(0.8f).weight(1f),
             verticalArrangement = Arrangement.spacedBy(13.dp)
-        ) {
-            item {
+        ) { item {
                 Text("Тип", color = Description, style = Caption.bodySmall)
                 MyDropdownField(dropText = "Выберите  тип", categories = listOf("",""))
             }
@@ -120,17 +114,11 @@ fun CreateProject(navController: NavController,) {
             startDateError=startDate.isBlank()
             endDateError=endDate.isBlank()
             mailError=mail.isBlank()
-            if(!nameError&&!startDateError&&!endDateError&&!mailError){}
-        },
+            if(!nameError&&!startDateError&&!endDateError&&!mailError){} },
             colors = ButtonColors(
-                containerColor = Accent,
-                contentColor = White,
-                disabledContentColor = White,
-                disabledContainerColor = AccentInactive
-            ),
-            shape = RoundedCornerShape(10.dp)
-        ) {
-            Text("Подтвердить")
-        }
+                containerColor = Accent, contentColor = White,
+                disabledContentColor = White, disabledContainerColor = AccentInactive),
+            shape = RoundedCornerShape(10.dp)) {
+            Text("Подтвердить") }
     }
 }

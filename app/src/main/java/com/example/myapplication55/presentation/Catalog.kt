@@ -51,7 +51,6 @@ import org.koin.androidx.compose.koinViewModel
 fun Catalog(
     navController: NavHostController,
     viewModel: ProductViewModel = koinViewModel(),
-    onNavigateToCart: () -> Unit = {}
 ) {
     var selectedCategory by remember { mutableStateOf("Все") }
     var searchIn by remember { mutableStateOf("") }
@@ -75,11 +74,7 @@ fun Catalog(
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             Box(modifier = Modifier.weight(1f)) {
-                Search(
-                    value = searchIn,
-                    onValueChange = { searchIn = it },
-                    placeholder = "Искать описания"
-                )
+                Search()
             }
             IconButton(
                 onClick = { navController.navigate("profile") },
@@ -104,8 +99,11 @@ fun Catalog(
             top.linkTo(catalogDesc.bottom, 15.dp)
         }) {
             CategoryLazy(
+                categories = viewModel.categories,
                 selected = selectedCategory,
-                onCategoryClick = { selectedCategory = it }
+                onCategoryClick = { clicked->
+                    selectedCategory=clicked
+                }
             )
         }
         LazyColumn(

@@ -21,7 +21,6 @@ fun ToggleButtonSc() {
             checkedTrackColor = Accent,
             uncheckedThumbColor = White,
             uncheckedTrackColor = AccentInactive,
-            uncheckedBorderColor = AccentInactive
-        )
+            uncheckedBorderColor = AccentInactive )
     )
 }

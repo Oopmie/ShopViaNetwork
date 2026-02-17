@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -49,65 +50,34 @@ import com.example.uikit.ui.theme.White
 @Composable
 fun CardCart(
     product: SearchList,
-    cartEntry: CartResponse,
+    cartCount: CartResponse,
     onDeleteClick: () -> Unit,
-    onCountUpdate: (Int) -> Unit
-) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(160.dp),
+    onCountUpdate: (Int) -> Unit) {
+    Card(modifier = Modifier.fillMaxWidth().height(160.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         border = BorderStroke(1.dp, color = Color(0xFFF4F4F4)),
-        elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier
-                    .wrapContentHeight()
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    text = product.title,
+        elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)) {
+        Column(modifier = Modifier.fillMaxSize().padding(16.dp),
+            verticalArrangement = Arrangement.SpaceBetween) {
+            Row(horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.wrapContentHeight().fillMaxWidth()) {
+                Text(text = product.title,
                     style = Headline.headlineMedium,
-                    modifier = Modifier
-                        .wrapContentHeight()
-                        .fillMaxWidth(0.85f)
-                )
-                Button(
-                    onClick = onDeleteClick,
-                    modifier = Modifier
-                        .height(20.dp)
-                        .width(20.dp),
+                    modifier = Modifier.wrapContentHeight().fillMaxWidth(0.85f))
+                Button(onClick = onDeleteClick,
+                    modifier = Modifier.size(20.dp),
                     colors = ButtonColors(
                         containerColor = White, contentColor = Black,
-                        disabledContainerColor = White, disabledContentColor = Black
-                    ),
-                    contentPadding = PaddingValues(0.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Close,
+                        disabledContainerColor = White, disabledContentColor = Black),
+                    contentPadding = PaddingValues(0.dp)) {
+                    Icon(imageVector = Icons.Default.Close,
                         contentDescription = "delete",
-                        tint = Black
-                    )
-                }
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
+                        tint = Black) } }
+            Row(modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Bottom
-            ) {
-                Column {
-                    Text(text = "${product.price} ₽", style = Title3.titleLarge)
-                }
-                CounterButton(initialCount = cartEntry.count, onCountChange = onCountUpdate)
-            }
+                verticalAlignment = Alignment.Bottom) {
+                Text(text = "${product.price} ₽", style = Title3.titleLarge)
+                CounterButton(initialCount = cartCount.count, onCountChange = onCountUpdate) }
         }
     }
 }

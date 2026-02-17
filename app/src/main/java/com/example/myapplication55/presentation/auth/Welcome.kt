@@ -105,18 +105,15 @@ fun Welcome(
                     mailError = mail.isBlank()
                     passError = pass.isBlank()
                     if (!mailError && !passError) {
-                        // Вызываем проверку входа
                         viewModel.signIn(
                             email = mail,
                             pass = pass,
                             onHome = {
-                                // Если залогинился — на главную
                                 navController.navigate("homepage") {
                                     popUpTo("welcome") { inclusive = true }
                                 }
                             },
                             onRegister = {
-                                // Если аккаунта нет — на создание профиля
                                 navController.navigate("create_account")
                             }
                         )

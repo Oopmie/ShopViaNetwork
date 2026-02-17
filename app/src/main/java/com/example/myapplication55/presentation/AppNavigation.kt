@@ -19,39 +19,29 @@ import com.example.myapplication55.presentation.project.ProjectList
 import com.example.myapplication55.viewModel.AuthViewModel
 import com.example.uikit.AppBottomBar
 import com.example.uikit.BottomNavItemData
-import com.example.uikit.Project
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun AppNavigation(
     navController: NavHostController,
-    viewModel: AuthViewModel = koinViewModel()
-) {
+    viewModel: AuthViewModel = koinViewModel() ) {
     val bottomItems = listOf(
         BottomNavItemData("homepage", "Главная", iconRes = R.drawable.home),
         BottomNavItemData("catalog", "Каталог", iconRes = R.drawable.catalog),
         BottomNavItemData("project", "Проекты", iconRes = R.drawable.project),
-        BottomNavItemData("profile", "Профиль", iconRes = R.drawable.user)
-    )
+        BottomNavItemData("profile", "Профиль", iconRes = R.drawable.user))
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
     val startDestination ="homepage"
 //    val startDestination = if (viewModel.isUserLoggedIn()) "homepage" else "welcome"
-
-    Scaffold(
-        bottomBar = {
+    Scaffold( bottomBar = {
             if (bottomItems.any { it.route == currentRoute }) {
                 AppBottomBar(
-                    items = bottomItems,
-                    currentRoute = currentRoute,
-                    onItemClick = { item ->
+                    items = bottomItems, currentRoute = currentRoute, onItemClick = { item ->
                         navController.navigate(item.route) {
                             popUpTo(navController.graph.startDestinationId) { saveState = true }
                             launchSingleTop = true
-                            restoreState = true
-                        }
-                    }
-                )
+                            restoreState = true } } )
             }
         }
     ) { paddingValues ->
@@ -91,8 +81,8 @@ fun AppNavigation(
             composable("homepage") { Homepage(navController) }
             composable("catalog") { Catalog(navController = navController, viewModel = koinViewModel()) }
             composable("cart") { CardInCartScreen(navController = navController) }
-            composable("project") { ProjectList(navController) }
-            composable("createProject") { CreateProject(navController) }
+            composable("project") { ProjectList(navController, viewModel) }
+            composable("createProject") { CreateProject(navController,viewModel, projectId = String()) }
             composable("profile") { Profile(navController, viewModel) }
         }
     }

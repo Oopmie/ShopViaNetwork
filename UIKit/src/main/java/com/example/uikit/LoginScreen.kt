@@ -29,54 +29,29 @@ import com.example.uikit.ui.theme.White
 @Composable
 fun Login(
     imageRes1: Int,
-    imageRes2: Int
-) {
+    imageRes2: Int) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(190.dp),
-        verticalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            "Или войдите с помощью", style = Text.bodySmall, color = CaptionColor,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth()
-        )
-        Button(
-            {}, modifier = Modifier
-                .fillMaxWidth()
-                .height(65.dp), shape = RoundedCornerShape(12.dp),
+        modifier = Modifier.fillMaxWidth().height(190.dp),
+        verticalArrangement = Arrangement.SpaceBetween) {
+        Text(text="Или войдите с помощью", style = Text.bodySmall, color = CaptionColor,
+            textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth() )
+        Button({}, modifier = Modifier.fillMaxWidth().height(65.dp),
+            shape = RoundedCornerShape(12.dp),
             colors = ButtonColors(
-                containerColor = White,
-                contentColor = Black,
-                disabledContentColor = Black,
-                disabledContainerColor = White
-            ),
-            border = BorderStroke(1.dp, color = InputStroke)
-        ) {
-            Image(
-                bitmap = ImageBitmap.imageResource(imageRes1), contentDescription = "vk",
-                modifier = Modifier.size(35.dp)
-            )
-            Text("      Войти с VK", fontSize = 17.sp)
-        }
-        Button(
-            {}, modifier = Modifier
-                .fillMaxWidth()
-                .height(65.dp), shape = RoundedCornerShape(12.dp),
+                containerColor = White, contentColor = Black,
+                disabledContentColor = Black, disabledContainerColor = White),
+            border = BorderStroke(1.dp, color = InputStroke)) {
+            Image(bitmap = ImageBitmap.imageResource(imageRes1),
+                contentDescription = "vk", modifier = Modifier.size(35.dp))
+            Text("      Войти с VK", fontSize = 17.sp) }
+        Button({}, modifier = Modifier.fillMaxWidth().height(65.dp),
+            shape = RoundedCornerShape(12.dp),
             colors = ButtonColors(
-                containerColor = White,
-                contentColor = Black,
-                disabledContentColor = Black,
-                disabledContainerColor = White
-            ),
-            border = BorderStroke(1.dp, color = InputStroke)
-        ) {
-            Image(
-                bitmap = ImageBitmap.imageResource(imageRes2), contentDescription = "yandex",
-                modifier = Modifier.size(35.dp)
-            )
-            Text("      Войти с Yandex", fontSize = 17.sp)
-        }
+                containerColor = White, contentColor = Black,
+                disabledContentColor = Black, disabledContainerColor = White),
+            border = BorderStroke(1.dp, color = InputStroke) ) {
+            Image(bitmap = ImageBitmap.imageResource(imageRes2),
+                contentDescription = "yandex", modifier = Modifier.size(35.dp))
+            Text("      Войти с Yandex", fontSize = 17.sp) }
     }
 }

@@ -53,8 +53,6 @@ fun Homepage(
     viewModel: ProductViewModel = koinViewModel()
 ) {
     var selectedCategory by remember { mutableStateOf("Все") }
-    var searchIn by remember { mutableStateOf("") }
-
     LaunchedEffect(selectedCategory) {
         viewModel.loadProducts(selectedCategory)
     }
@@ -69,11 +67,7 @@ fun Homepage(
             .constrainAs(search) {
                 top.linkTo(parent.top, 0.dp)
             }) {
-            Search(
-                value = searchIn,
-                onValueChange = { searchIn = it },
-                placeholder = "Искать описания"
-            )
+            Search()
         }
         Text(
             "Акции и новости",
@@ -158,6 +152,7 @@ fun Homepage(
             top.linkTo(catalogDesc.bottom, 15.dp)
         }) {
             CategoryLazy(
+                categories = viewModel.categories,
                 selected = selectedCategory,
                 onCategoryClick = { selectedCategory = it }
             )

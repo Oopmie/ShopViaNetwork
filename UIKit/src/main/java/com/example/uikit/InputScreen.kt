@@ -26,11 +26,9 @@ fun AppTextField(
     placeholder: String,
     isError: Boolean = false,
     errorText: String,
-    modifier: Modifier = Modifier
-) {
+    modifier: Modifier = Modifier) {
     Column (modifier = modifier.fillMaxWidth()) {
-        OutlinedTextField(
-            value=value,
+        OutlinedTextField(value=value,
             onValueChange=onValueChange,
             modifier = Modifier.fillMaxWidth(),
             placeholder = {Text(text = placeholder, color = CaptionColor)},
@@ -44,17 +42,9 @@ fun AppTextField(
                 focusedContainerColor = InputBg,
                 unfocusedContainerColor = InputBg,
                 focusedTextColor = Black,
-                unfocusedTextColor = Black
-            ),
-            singleLine = true
-        )
-        if (isError) {
-            Text(
-                text = errorText,
-                color = Color.Red,
+                unfocusedTextColor = Black ), singleLine = true)
+        if (isError) { Text( text = errorText, color = Color.Red,
                 style = TextStyle(fontSize = 12.sp),
-                modifier = Modifier.padding(start = 8.dp, top = 4.dp)
-            )
-        }
+                modifier = Modifier.padding(start = 8.dp, top = 4.dp)) }
     }
 }

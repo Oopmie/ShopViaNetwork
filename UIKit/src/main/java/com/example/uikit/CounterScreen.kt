@@ -29,54 +29,40 @@ import com.example.uikit.ui.theme.White
 @Composable
 fun CounterButton(
     initialCount: Int = 1,
-    onCountChange: (Int) -> Unit
-) {
+    onCountChange: (Int) -> Unit) {
     var count by remember { mutableIntStateOf(initialCount) }
     Surface(
         shape = RoundedCornerShape(8.dp),
-        color = InputBg
-    ) {
+        color = InputBg ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .padding(5.dp)
-                .height(30.dp)
-        ) {
+                .height(30.dp) ) {
             Text(
-                text = "${count} штук",
-                modifier = Modifier.padding(horizontal = 8.dp),
-                fontSize = 16.sp,
-                color = Black
-            )
+                text = "${count} штук", fontSize = 16.sp, color = Black,
+                modifier = Modifier.padding(horizontal = 8.dp) )
             Button(
                 onClick = {
-                    if (count > 1) {
-                        count--
-                        onCountChange(count)
-                    }
-                }, modifier = Modifier
-                    .width(30.dp)
-                    .height(30.dp), colors = ButtonColors(
+                    if (count > 1) { count--
+                        onCountChange(count) } },
+                modifier = Modifier.width(30.dp).height(30.dp),
+                colors = ButtonColors(
                     containerColor = White, contentColor = Black,
                     disabledContainerColor = White, disabledContentColor = Black
-                ), contentPadding = PaddingValues(0.dp)
-            ) {
-                Text("-", fontSize = 20.sp, color = Color(0xFF939396))
-            }
-            VerticalSpacer(thickness = 1.dp)
+                ), contentPadding = PaddingValues(0.dp)) {
+                Text("-", fontSize = 20.sp, color = Color(0xFF939396)) }
+            VerticalSpacer()
             Button(
                 onClick = {
                     count++
-                    onCountChange(count)
-                }, modifier = Modifier
-                    .width(30.dp)
-                    .height(30.dp), colors = ButtonColors(
+                    onCountChange(count) },
+                modifier = Modifier.width(30.dp).height(30.dp),
+                colors = ButtonColors(
                     containerColor = InputBg, contentColor = Black,
                     disabledContainerColor = InputBg, disabledContentColor = Black
-                ), contentPadding = PaddingValues(0.dp)
-            ) {
-                Text("+", fontSize = 20.sp, color = Color(0xFF939396))
-            }
+                ), contentPadding = PaddingValues(0.dp)) {
+                Text("+", fontSize = 20.sp, color = Color(0xFF939396)) }
         }
     }
 }

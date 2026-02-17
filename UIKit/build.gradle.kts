@@ -34,13 +34,11 @@ android {
 
 dependencies {
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
-//    implementation("androidx.navigation:navigation-compose:2.9.02")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui)
-//    implementation(libs.androidx.compose.material.icons.core)
     implementation(project(":Network"))
     implementation(libs.material3)
     implementation(libs.androidx.compose.material.icons.extended)

@@ -26,38 +26,27 @@ data class BottomNavItemData(
 fun AppBottomBar(
     items: List<BottomNavItemData>,
     currentRoute: String?,
-    onItemClick: (BottomNavItemData) -> Unit
-) {
+    onItemClick: (BottomNavItemData) -> Unit ) {
     NavigationBar(
         containerColor = Color.White,
-        tonalElevation = 8.dp
-    ) {
+        tonalElevation = 8.dp) {
         items.forEach { item ->
             val isSelected = currentRoute == item.route
-
             NavigationBarItem(
                 selected = isSelected,
                 onClick = { onItemClick(item) },
                 label = {
-                    Text(
-                        text = item.title,
-                        style = TextStyle(fontSize = 12.sp)
-                    )
-                },
-                icon = {
-                    Icon(
+                    Text(text = item.title, style = TextStyle(fontSize = 12.sp)) },
+                icon = { Icon(
                         painter = painterResource(id = item.iconRes),
                         contentDescription = item.title,
-                        modifier = Modifier.size(24.dp)
-                    )
-                },
+                        modifier = Modifier.size(24.dp)) },
                 colors = NavigationBarItemDefaults.colors(
                     selectedIconColor = Color(0xFF007AFF),
                     selectedTextColor = Color(0xFF007AFF),
                     unselectedIconColor = Color(0xFF939396),
                     unselectedTextColor = Color(0xFF939396),
-                    indicatorColor = Color.Transparent
-                )
+                    indicatorColor = Color.Transparent )
             )
         }
     }

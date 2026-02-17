@@ -9,6 +9,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.uikit.ui.theme.Black
@@ -16,26 +20,18 @@ import com.example.uikit.ui.theme.Description
 import com.example.uikit.ui.theme.InputBg
 import com.example.uikit.ui.theme.InputStroke
 
-//поисковая строка. при выделении появляется крестик для выхода из поиска
+//поисковая строка.
 @Composable
-fun Search(
-    value: String,
-    onValueChange: (String) -> Unit,
-    placeholder: String
-) {
+fun Search() {
+    var searchIn by remember { mutableStateOf("") }
     OutlinedTextField(
-        value = value,
-        onValueChange = onValueChange,
+        value = searchIn,
+        onValueChange = {searchIn=it},
         modifier = Modifier.fillMaxWidth(),
-        placeholder = {
-            Text(text = placeholder)
-        },
-        leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "Search",
-                    tint = Description
-                )},
+        placeholder = { Text(text = "Искать описания") },
+        leadingIcon = { Icon( imageVector = Icons.Default.Search,
+            contentDescription = "Search",
+            tint = Description)},
         shape = RoundedCornerShape(10.dp),
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = InputStroke,
@@ -43,9 +39,5 @@ fun Search(
             focusedContainerColor = InputBg,
             unfocusedContainerColor = InputBg,
             focusedTextColor = Black,
-            unfocusedTextColor = Black
-        ),
-        singleLine = true
-    )
-}
-
+            unfocusedTextColor = Black ),
+        singleLine = true) }

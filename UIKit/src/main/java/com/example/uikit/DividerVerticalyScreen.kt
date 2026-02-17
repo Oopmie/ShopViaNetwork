@@ -6,8 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 
 @Composable
-fun VerticalSpacer(thickness: Dp){
-    VerticalDivider(modifier = Modifier.fillMaxHeight(), color = Color.Gray, thickness = thickness)
-}
+fun VerticalSpacer(){
+    VerticalDivider(modifier = Modifier.fillMaxHeight(), color = Color.Gray, thickness = 1.dp)}

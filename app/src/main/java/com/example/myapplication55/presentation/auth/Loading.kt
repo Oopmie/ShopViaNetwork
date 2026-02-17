@@ -9,7 +9,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.uikit.ui.theme.Accent
 import com.example.uikit.ui.theme.AccentInactive
@@ -18,23 +17,10 @@ import com.example.uikit.ui.theme.White
 @Composable
 fun LoadingScreen() {
     Box(modifier = Modifier.fillMaxSize().background(brush = Brush.linearGradient(
-        colors = listOf(
-            AccentInactive,
-            Accent,
-            AccentInactive
+        colors = listOf( AccentInactive, Accent, AccentInactive
         ), start = Offset(0f,Float.POSITIVE_INFINITY),
         end = Offset(Float.POSITIVE_INFINITY,0f)
     )), contentAlignment = Alignment.Center) {
-        Text(
-            "Matule",
-            fontSize = 40.sp,
-            color = White
-        )
+        Text("Matule", fontSize = 40.sp, color = White)
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun Sssd() {
-    LoadingScreen()
 }

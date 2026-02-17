@@ -30,4 +30,3 @@ data class ProjectResponse(
     @SerializedName("user_id")
     val userId: String,
 )
-

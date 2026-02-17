@@ -1,6 +1,5 @@
 package com.example.myapplication55.presentation
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,20 +26,14 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.myapplication55.viewModel.ProductViewModel
 import com.example.network.model.CartResponse
-import com.example.network.model.ProductDescription
 import com.example.uikit.BigButton
 import com.example.uikit.CardCart
 import com.example.uikit.ui.theme.Accent
@@ -79,39 +72,31 @@ fun CardInCartScreen(navController: NavController, viewModel: ProductViewModel =
                 .fillMaxSize()
                 .padding(padding)
                 .padding(horizontal = 20.dp),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
+            verticalArrangement = Arrangement.SpaceBetween ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(0.15f),
-                verticalArrangement = Arrangement.SpaceBetween
-            ) {
+                verticalArrangement = Arrangement.SpaceBetween ) {
                 IconButton(
                     modifier = Modifier
                         .size(35.dp)
                         .background(InputBg, RoundedCornerShape(8.dp)),
-                    onClick = { navController.popBackStack() },
-                ) {
+                    onClick = { navController.popBackStack() }, ) {
                     Icon(
                         Icons.Filled.ArrowBackIosNew,
                         "back",
                         tint = Description,
-                        modifier = Modifier.size(18.dp)
-                    )
-                }
+                        modifier = Modifier.size(18.dp) ) }
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
+                    verticalAlignment = Alignment.CenterVertically ) {
                     Text("Корзина", style = Title1.titleLarge)
                         IconButton(onClick = { viewModel.clearFullCart() }) {
-                        Icon(Icons.Filled.DeleteOutline, "delete", tint = Description)
-                    }
+                        Icon(Icons.Filled.DeleteOutline, "delete", tint = Description) }
                 }
             }
-
             LazyColumn(
                 modifier = Modifier
                     .weight(1f)
@@ -169,15 +154,12 @@ fun CardInCartScreen(navController: NavController, viewModel: ProductViewModel =
                             val job = launch {
                                 snackbarHostState.showSnackbar(
                                     message = "Заказ успешно оформлен!",
-                                    duration = SnackbarDuration.Indefinite
-                                )
-                            }
+                                    duration = SnackbarDuration.Indefinite ) }
                             delay(2000)
                             viewModel.clearFullCart()
                             job.cancel()
                             navController.navigate("homepage") {
-                                popUpTo("homepage") { inclusive = true }
-                            }
+                                popUpTo("homepage") { inclusive = true } }
                         }
                     }
                 )

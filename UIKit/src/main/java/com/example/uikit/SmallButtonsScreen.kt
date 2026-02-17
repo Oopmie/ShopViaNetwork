@@ -25,27 +25,16 @@ import com.example.uikit.ui.theme.Caption
 fun SmallButton(
     isAdded: Boolean,
     onToggle: (Boolean) -> Unit,
-    textDelete: String,
     textAdd: String,
-    modifier: Modifier = Modifier
-) {
-    val containerColor = if (isAdded) Color.White else Accent
-    val contentColor = if (isAdded) Accent else Color.White
-
+    modifier: Modifier = Modifier) {
     Button(
         onClick = { onToggle(!isAdded) },
         modifier = modifier,
         shape = RoundedCornerShape(12.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = containerColor,
-            contentColor = contentColor
-        ),
-        border = BorderStroke(1.dp, color = Accent),
-    ) {
-        Text(
-            text = if (isAdded) textDelete else textAdd,
-            style = Caption.bodyMedium
-        )
-    }
+            containerColor = if (isAdded) Color.White else Accent,
+            contentColor = if (isAdded) Accent else Color.White),
+        border = BorderStroke(1.dp, color = Accent),) {
+        Text(text = if (isAdded) "Убрать" else textAdd,
+            style = Caption.bodyMedium ) }
 }
-
