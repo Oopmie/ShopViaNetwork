@@ -13,33 +13,21 @@ import com.example.network.model.Registration
 import kotlinx.coroutines.launch
 
 class AuthViewModel(val api: UserAPI, val sessionManager: SessionManager) : ViewModel() {
-    var name = "";
-    var surname = "";
-    var sName = "";
-    var birth = "";
-    var gender = "";
-    var email = ""
+    var name = ""; var surname = ""; var sName = "";
+    var birth = ""; var gender = ""; var email = ""
     var userName by mutableStateOf("")
     var userEmail by mutableStateOf("")
-
-    init {
-        loadUserData()
-    }
+    init { loadUserData() }
     fun loadUserData() {
         userName = sessionManager.getFirstName()
-        userEmail = sessionManager.getEmail()
-    }
-    fun isUserLoggedIn(): Boolean {
-        return sessionManager.getToken() != null
-    }
+        userEmail = sessionManager.getEmail() }
     fun isPasswordValid(password: String): Boolean {
         val hasUpperCase = password.any { it.isUpperCase() }
         val hasLowerCase = password.any { it.isLowerCase() }
         val hasDigit = password.any { it.isDigit() }
         val hasSpecialChar = password.any { !it.isLetterOrDigit() }
         val isLongEnough = password.length >= 8
-        return hasUpperCase && hasLowerCase && hasDigit && hasSpecialChar && isLongEnough
-    }
+        return hasUpperCase && hasLowerCase && hasDigit && hasSpecialChar && isLongEnough }
     fun registerAndSaveAll(pass: String, onSuccess: () -> Unit) {
         viewModelScope.launch {
             try {
@@ -63,9 +51,7 @@ class AuthViewModel(val api: UserAPI, val sessionManager: SessionManager) : View
                         if (updateRes.isSuccessful) { onSuccess() }
                     }
                 }
-            } catch (e: Exception){}
-        }
-    }
+            } catch (e: Exception){} } }
     fun signIn(email: String, pass: String, onHome: () -> Unit, onRegister: () -> Unit) {
         viewModelScope.launch {
             try {
@@ -79,14 +65,11 @@ class AuthViewModel(val api: UserAPI, val sessionManager: SessionManager) : View
                 } else {
                     onRegister()
                 }
-            } catch (e: Exception) {}
-        }
-    }
+            } catch (e: Exception) {} } }
     fun logout(onSuccess: () -> Unit) {
         viewModelScope.launch {
             val idToken = sessionManager.getUserId() ?: ""
             val token = "Bearer ${sessionManager.getToken()}"
-
             try {
                 api.deleteUser(idToken, token)
                 sessionManager.clear()

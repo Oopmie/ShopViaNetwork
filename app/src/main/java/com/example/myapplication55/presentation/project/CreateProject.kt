@@ -22,6 +22,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.myapplication55.viewModel.AuthViewModel
+import com.example.network.UserAPI
+import com.example.network.model.ProjectList
+import com.example.network.model.ProjectResponse
 import com.example.uikit.AppTextField
 import com.example.uikit.MyDropdownField
 import com.example.uikit.ui.theme.Accent
@@ -33,19 +36,18 @@ import com.example.uikit.ui.theme.White
 
 @Composable
 fun CreateProject(navController: NavController,
-                  viewModel: AuthViewModel, projectId: String?) {
-    val existing = viewModel.userProjects.find { it.id == projectId }
+                  collectionName: ProjectResponse) {
     Column(
         verticalArrangement = Arrangement.spacedBy(15.dp),
         modifier = Modifier.fillMaxSize().padding(20.dp, 60.dp)
     ) {
-        var name by remember { mutableStateOf(existing?.title ?:"") }
+        var name by remember { mutableStateOf("") }
         var nameError by remember { mutableStateOf(false) }
-        var startDate by remember { mutableStateOf(existing?.dateStart ?:"") }
+        var startDate by remember { mutableStateOf("") }
         var startDateError by remember { mutableStateOf(false) }
-        var endDate by remember { mutableStateOf(existing?.dateEnd ?:"") }
+        var endDate by remember { mutableStateOf("") }
         var endDateError by remember { mutableStateOf(false) }
-        var mail by remember { mutableStateOf(existing?.descriptionSource ?:"") }
+        var mail by remember { mutableStateOf("") }
         var mailError by remember { mutableStateOf(false) }
         Text("Создать проект",
             style = Title2.titleMedium,

@@ -23,12 +23,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.imageResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.myapplication55.R
 import com.example.myapplication55.viewModel.AuthViewModel
-import com.example.myapplication55.viewModel.ProductViewModel
 import com.example.uikit.PassTextField
 import com.example.uikit.ui.theme.Accent
 import com.example.uikit.ui.theme.AccentInactive
