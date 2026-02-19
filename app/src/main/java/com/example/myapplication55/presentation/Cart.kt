@@ -61,51 +61,31 @@ fun CardInCartScreen(navController: NavController, viewModel: ProductViewModel =
                     containerColor = Accent,
                     contentColor = White,
                     shape = RoundedCornerShape(12.dp),
-                    snackbarData = data
-                )
-            }
-        },
+                    snackbarData = data) } },
         containerColor = White
     ) { padding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .padding(horizontal = 20.dp),
+        Column(modifier = Modifier.fillMaxSize()
+                .padding(padding).padding(horizontal = 20.dp),
             verticalArrangement = Arrangement.SpaceBetween ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.15f),
+            Column(modifier = Modifier.fillMaxWidth().fillMaxHeight(0.15f),
                 verticalArrangement = Arrangement.SpaceBetween ) {
-                IconButton(
-                    modifier = Modifier
-                        .size(35.dp)
+                IconButton(modifier = Modifier.size(35.dp)
                         .background(InputBg, RoundedCornerShape(8.dp)),
                     onClick = { navController.popBackStack() }, ) {
-                    Icon(
-                        Icons.Filled.ArrowBackIosNew,
-                        "back",
-                        tint = Description,
+                    Icon(Icons.Filled.ArrowBackIosNew,
+                        "back", tint = Description,
                         modifier = Modifier.size(18.dp) ) }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
+                Row(modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically ) {
                     Text("Корзина", style = Title1.titleLarge)
                         IconButton(onClick = { viewModel.clearFullCart() }) {
-                        Icon(Icons.Filled.DeleteOutline, "delete", tint = Description) }
-                }
-            }
-            LazyColumn(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth()
-                    .padding(top = 20.dp),
+                        Icon(Icons.Filled.DeleteOutline, "delete",
+                            tint = Description) } } }
+            LazyColumn(modifier = Modifier.weight(1f).fillMaxWidth().padding(top = 20.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
                 val cartEntries = viewModel.cartMap.value.toList()
-
                 items(
                     cartEntries,
                     key = { it.first })
@@ -114,43 +94,24 @@ fun CardInCartScreen(navController: NavController, viewModel: ProductViewModel =
                     if (product != null)
                         CardCart(
                             product = product,
-                            cartEntry = CartResponse(
-                                id = productId,
-                                productId = productId,
-                                count = count,
-                                userId = "",
-                                collectionId = "",
-                                collectionName = "",
-                                created = "",
-                                updated = ""
-                            ),
-                            onDeleteClick = {
+                            cartCount = CartResponse(
+                                id = productId, productId = productId,
+                                count = count, userId = "",
+                                collectionId = "", collectionName = "",
+                                created = "", updated = ""
+                            ), onDeleteClick = {
                                 viewModel.deleteFromCart(productId)
-                            },
-                            onCountUpdate = { newCount ->
-                                viewModel.updateCartCount(productId, newCount)
-                            }
-                        )
-                }
-            }
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 20.dp)
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
+                            }, onCountUpdate = { newCount ->
+                                viewModel.updateCartCount(productId, newCount) }) } }
+            Column(modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp)
+            ) { Row(modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text("Сумма", style = Title2.titleMedium)
-                    Text("$totalPrice ₽", style = Title2.titleMedium)
-                }
+                ) { Text("Сумма", style = Title2.titleMedium)
+                    Text("$totalPrice ₽", style = Title2.titleMedium) }
                 Spacer(modifier = Modifier.height(20.dp))
-                BigButton(
-                    enabled = totalPrice > 0,
+                BigButton(enabled = totalPrice > 0,
                     text = "Перейти к оформлению заказа",
-                    onClick = {
-                        scope.launch {
+                    onClick = { scope.launch {
                             val job = launch {
                                 snackbarHostState.showSnackbar(
                                     message = "Заказ успешно оформлен!",

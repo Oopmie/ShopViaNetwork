@@ -41,48 +41,27 @@ fun AppNavigation(
                         navController.navigate(item.route) {
                             popUpTo(navController.graph.startDestinationId) { saveState = true }
                             launchSingleTop = true
-                            restoreState = true } } )
-            }
-        }
+                            restoreState = true } } ) } }
     ) { paddingValues ->
-        NavHost(
-            navController = navController,
-            startDestination = startDestination,
+        NavHost(navController = navController, startDestination = startDestination,
             modifier = Modifier.padding(paddingValues)
-        ) {
-            composable("welcome") {
-                Welcome(
-                    navController = navController,
-                    viewModel = viewModel,
-                    onNavigateToHome = {
-                        navController.navigate("homepage") {
-                            popUpTo("welcome") { inclusive = true }
-                        }
-                    },
-                    onNavigateToRegister = {
-                        navController.navigate("create_account")
-                    }
-                )
-            }
-
+        ) { composable("welcome") {
+                Welcome(navController = navController, viewModel = viewModel,
+                    onNavigateToHome = { navController.navigate("homepage") {
+                            popUpTo("welcome") { inclusive = true } }
+                    }, onNavigateToRegister = {
+                        navController.navigate("create_account") }) }
             composable("create_account") { CreateAccount(navController = navController, viewModel = viewModel) }
-
             composable("create_pass") {
-                CreatePass(
-                    navController = navController,
-                    viewModel = viewModel,
+                CreatePass(navController = navController, viewModel = viewModel,
                     onSuccess = {
                         navController.navigate("homepage") {
-                            popUpTo("welcome") { inclusive = true }
-                        }
-                    }
-                )
-            }
+                            popUpTo("welcome") { inclusive = true } } }) }
             composable("homepage") { Homepage(navController) }
             composable("catalog") { Catalog(navController = navController, viewModel = koinViewModel()) }
             composable("cart") { CardInCartScreen(navController = navController) }
             composable("project") { ProjectList(navController, viewModel) }
-            composable("createProject") { CreateProject(navController,viewModel, projectId = String()) }
+            composable("createProject") { CreateProject(navController) }
             composable("profile") { Profile(navController, viewModel) }
         }
     }

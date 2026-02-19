@@ -21,11 +21,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun GreetingPreview() {
-//    MyApplication55Theme {
-//        CardInCartScreen()
-//    }
-//}

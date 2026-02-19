@@ -36,7 +36,7 @@ import com.example.uikit.ui.theme.White
 
 @Composable
 fun CreateProject(navController: NavController,
-                  collectionName: ProjectResponse) {
+                  collectionName: ProjectResponse?=null) {
     Column(
         verticalArrangement = Arrangement.spacedBy(15.dp),
         modifier = Modifier.fillMaxSize().padding(20.dp, 60.dp)

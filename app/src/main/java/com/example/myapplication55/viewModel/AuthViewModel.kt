@@ -15,12 +15,21 @@ import kotlinx.coroutines.launch
 class AuthViewModel(val api: UserAPI, val sessionManager: SessionManager) : ViewModel() {
     var name = ""; var surname = ""; var sName = "";
     var birth = ""; var gender = ""; var email = ""
+
+
+
+
     var userName by mutableStateOf("")
     var userEmail by mutableStateOf("")
+
     init { loadUserData() }
     fun loadUserData() {
         userName = sessionManager.getFirstName()
         userEmail = sessionManager.getEmail() }
+
+
+
+
     fun isPasswordValid(password: String): Boolean {
         val hasUpperCase = password.any { it.isUpperCase() }
         val hasLowerCase = password.any { it.isLowerCase() }
